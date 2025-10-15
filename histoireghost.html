@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost of Tsushima - Histoire</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  background: url('https://s1.qwant.com/thumbr/474x266/8/c/fe8363adf783501627d40820667e431baeb812f34bbaccc4cbc5716014c6ee/OIP.oVfTvrIYJofIFs75mQnuWwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.oVfTvrIYJofIFs75mQnuWwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0') no-repeat center/cover;
+  background-attachment: fixed;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  min-height: 100vh;
+  padding: 60px 20px;
+}
+
+h1 {
+  color: #ffcc00;
+  text-shadow: 2px 2px 8px black;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.card {
+  background: rgba(0, 0, 0, 0.75);
+  border: 2px solid #ffcc00;
+  border-radius: 15px;
+  width: 260px;
+  padding: 20px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  background: rgba(255, 204, 0, 0.9);
+  color: #000;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.card h2 {
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+
+.details {
+  display: none;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #ffcc00;
+  border-radius: 10px;
+  margin: 20px auto;
+  padding: 15px;
+  width: 90%;
+  max-width: 800px;
+  text-align: left;
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.back-button {
+  margin-top: 50px;
+  background-color: #ffcc00;
+  color: black;
+  border: none;
+  padding: 10px 25px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.back-button:hover {
+  background-color: #ffaa00;
+  transform: scale(1.1);
+}
+</style>
+</head>
+
+<body>
+<div class="overlay">
+
+  <h1>⚔️ Histoire de Ghost of Tsushima</h1>
+
+  <div class="container">
+
+    <div class="card" onclick="toggleDetails('acte1')">
+      <img src="https://s1.qwant.com/thumbr/474x266/a/1/1c17a5ef97fadeffa1026727438fd0e70819aaa17399ea00fca77f5d45a7f1/OIP.nC5l8fzO6O23YNUSv9A3yQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.nC5l8fzO6O23YNUSv9A3yQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Acte 1">
+      <h2>Acte I — Le Fantôme Émerge</h2>
+      <p>Jin Sakai tente de sauver son oncle Lord Shimura et découvre une nouvelle voie du combat.</p>
+    </div>
+
+    <div class="card" onclick="toggleDetails('acte2')">
+      <img src="https://s2.qwant.com/thumbr/474x266/7/8/f2b7ce28c21c8dae6384919c8193d5d70ceb8b790a70670c13652bd6a84c62/OIP.Bj98NWoD_Z0ULOAnngEXlQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.Bj98NWoD_Z0ULOAnngEXlQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Acte 2">
+      <h2>Acte II — Le Vent de la Rébellion</h2>
+      <p>Les Mongols se renforcent, et Jin doit rallier de nouveaux alliés pour la libération de Tsushima.</p>
+    </div>
+
+    <div class="card" onclick="toggleDetails('acte3')">
+      <img src="https://s1.qwant.com/thumbr/474x355/a/a/abc959b45433cdf9c8ef421853433867eb8e90237c32785f3bc1040db70da1/OIP.r_a3TfQaQVaB8q1oE8tutAHaFj.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.r_a3TfQaQVaB8q1oE8tutAHaFj%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Acte 3">
+      <h2>Acte III — L’Héritage du Fantôme</h2>
+      <p>Le combat final pour Tsushima oppose Jin à son propre passé et à l’honneur des samouraïs.</p>
+    </div>
+
+  </div>
+
+  <!-- Détails des actes -->
+  <div id="acte1" class="details">
+    <h3>🌅 Acte I — Le Fantôme Émerge</h3>
+    <p>Après l’invasion mongole, Jin Sakai tente de sauver son oncle Lord Shimura, capturé par Khotun Khan. 
+    Confronté à l’échec de la voie du samouraï, Jin apprend des techniques d’infiltration et devient le “Fantôme”. 
+    Il libère peu à peu les villages de Tsushima, tout en affrontant ses propres doutes sur l’honneur et la guerre.</p>
+  </div>
+
+  <div id="acte2" class="details">
+    <h3>🌬️ Acte II — Le Vent de la Rébellion</h3>
+    <p>Jin rassemble des alliés : Yuna, Sensei Ishikawa, Norio, et Lady Masako. 
+    Ensemble, ils préparent la reconquête de Castle Shimura. 
+    Mais ses méthodes de Fantôme déplaisent aux samouraïs traditionnels. 
+    La fracture entre Jin et son oncle s’accentue, tandis que l’île souffre sous la domination mongole.</p>
+  </div>
+
+  <div id="acte3" class="details">
+    <h3>🔥 Acte III — L’Héritage du Fantôme</h3>
+    <p>Jin se dresse face à Khotun Khan pour libérer définitivement Tsushima. 
+    Après une bataille épique, Jin doit faire face à Lord Shimura, devenu son ennemi pour avoir trahi le code du samouraï. 
+    Le duel final symbolise le conflit entre tradition et liberté. 
+    Jin devient un symbole de résistance, mais aussi un exilé de son propre clan.</p>
+  </div>
+
+  <button class="back-button" onclick="window.location.href='lore debut.html'">⬅️ Retour au Lore</button>
+
+</div>
+
+<script>
+function toggleDetails(id) {
+  const el = document.getElementById(id);
+  if (el.style.display === 'block') {
+    el.style.display = 'none';
+  } else {
+    document.querySelectorAll('.details').forEach(d => d.style.display = 'none');
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+</script>
+
+</body>
+</html>

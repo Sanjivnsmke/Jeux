@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost of Tsushima - Personnages</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  margin: 20;
+  padding: 50;
+   background: url('https://s1.qwant.com/thumbr/474x711/a/1/4959f4f66515bfbed1b790c0c48eba933d90ac0e5493f5ccfb81fbf4bfcd06/OIP.KT1EScuMEAevk6zVugjJuQHaLH.jpg?u=https%3A%2F%2Ftse1.explicit.bing.net%2Fth%2Fid%2FOIP.KT1EScuMEAevk6zVugjJuQHaLH%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0') no-repeat center center/cover;
+  background-size: cover;
+  background-size:5000px 7500px;
+  color: rgb(1, 1, 1);
+}
+
+.container {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.char-card {
+  background: rgba(0,0,0,0.6);
+  width: 715px;
+  border-radius: 150px;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.3s;
+  border: 2px solid #ffcc00;
+}
+
+.char-card img {
+  width: 100%;
+  height: auto;
+}
+
+.char-card h3 {
+  margin: 10px 0;
+  color: #ffcc00;
+}
+
+.char-card:hover {
+  transform: scale(1.05);
+}
+
+.modal {
+  display: none; /* caché par défaut */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: center;
+}
+
+.modal-content {
+  background: #111;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 700px;
+  width: 100%;
+  color: #fafafa;
+  text-align:center;
+  position: relative;
+}
+
+.modal-content h2 {
+  color: #ffcc00;
+  text-align: center;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.2em;
+  background: #ffcc00;
+  color: #000;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.close-btn:hover {
+  background: #ffaa00;
+}
+
+.back-btn {
+  display: block;
+  width: fit-content;
+  margin: 30px auto;
+  background: #ffcc00;
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.back-btn:hover {
+  background: #ffaa00;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!--Exemple de personnage 1-->
+    <div class="char-card" onclick="openModal('altan')">
+      <img src="https://s2.qwant.com/thumbr/474x266/7/b/81f40556badfd8d8c747416754d57ac2fa0fa52ad10d60e7ef4c45e6d4ef6b/OIP.-V8lhBr1biqMgWgRzdmzRwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.-V8lhBr1biqMgWgRzdmzRwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Altan">
+      <h3>Altan</h3>
+    </div>
+
+
+    <!--Exemple de personnage 2-->
+    <div class="char-card" onclick="openModal('baku')">
+      <img src="https://s2.qwant.com/thumbr/474x266/c/f/b28f8e4bb3a347a595ef96750cc288ff86cfd508dbab3264c47d24c14854b8/OIP.rgsTPrl_GRbx-23q78eYCQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.rgsTPrl_GRbx-23q78eYCQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Baku">
+      <h3>Baku</h3>
+    </div>
+
+    <!--Exemple de personnages 3-->
+    <div class="char-card" onclick="openModal('bartu')">
+      <img src="https://s2.qwant.com/thumbr/474x266/c/5/222031682c728d6985f18d9c3f449dd894ae03062e899b4b5527af7dcf1e8b/OIP.kQianPvR37anTRdB2fzm3gHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.kQianPvR37anTRdB2fzm3gHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Bartu">
+      <h3>Bartu</h3>
+    </div>
+
+     <!--Exemple de personnages 4-->
+    <div class="char-card" onclick="openModal('bettomaru')">
+      <img src="https://s1.qwant.com/thumbr/474x266/2/2/1b0e596d0277ebd9276977c465bd72cef0b5d772fd815bcdbb948da45b6192/OIP.5tx0v9VswYPCh31G6ulPlwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.5tx0v9VswYPCh31G6ulPlwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Bettomaru">
+      <h3>Bettomaru</h3>
+    </div>
+
+    <!--Exemple de personnage 5-->
+    <div class="char-card" onclick="openModal('dogar')">
+      <img src="https://s2.qwant.com/thumbr/474x266/5/2/dab461173786aeea46d600b83102fc12d59537fbe9be9bbcca0db0861dada6/OIP.Yf7Gcr-Qp3ae5iFTSfw65gHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.Yf7Gcr-Qp3ae5iFTSfw65gHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Dogar">
+      <h3>Dogar</h3>
+    </div>
+
+    <!--Exemple de personnage 6-->
+    <div class="char-card" onclick="openModal('gyozen')">
+      <img src="https://s2.qwant.com/thumbr/474x266/4/f/6bd0d780c05f74f461d5e5880a5d7fe0e5882189db116da80be8ae4011ab26/OIP.nrjkZggipEj-_sCSyuxZFwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.nrjkZggipEj-_sCSyuxZFwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Gyozen">
+      <h3>Gyozen</h3>
+    </div>
+
+    <!--Exemple de personnage 7-->
+    <div class="char-card" onclick="openModal('hana')">
+      <img src="https://s1.qwant.com/thumbr/474x266/1/8/4f2ee27d740b8a1403dbb2af149e17ac0b9674e8a4d35c10cd0a2f2ab24874/OIP.yEWDpqQ6yaZSoOPXvId3RgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.yEWDpqQ6yaZSoOPXvId3RgHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Hana Adachi">
+      <h3>Hana Adachi</h3>
+    </div>
+
+    <!--Exemple de personnage 8-->
+    <div class="char-card" onclick="openModal('hanaoka')">
+      <img src="https://s2.qwant.com/thumbr/474x266/5/c/18a45f5aee5c799bf64760a4c351130e7074525bc492013b1a7607ad233d3c/OIP.-wP7dJQ2uCiZWgMubE-yUQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.-wP7dJQ2uCiZWgMubE-yUQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Hanaoka">
+      <h3>Hanaoka</h3>
+    </div>
+
+    <!--Exemple personnage 9-->
+  <div class="char-card" onclick="openModal('harunobu')">
+    <img src="https://s2.qwant.com/thumbr/474x266/e/f/464ec6760af9d2550662f28bc141724918461e6be096aabb7c721451cf6a98/OIP.BQ1zknwuGCadEqkJW7D92wHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.BQ1zknwuGCadEqkJW7D92wHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Harunobu Adachi">
+    <h3>Harunobu Adachi</h3>
+  </div>
+
+   <!--Exemple personnage 10-->
+  <div class="char-card" onclick="openModal('harunori')">
+  <img src="https://s1.qwant.com/thumbr/474x266/1/e/b89fa32ddfad816e79576b1885e5cf0444ff36d2aa1284deea8d41702726b9/OIP.FwklsuY7t3DM_R5SL1HRCwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.FwklsuY7t3DM_R5SL1HRCwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Harunori">
+    <h3>Harunori</h3>
+  </div>
+
+  <!--Exemple personnage 11-->
+  <div class="char-card" onclick="openModal('hina')">
+    <img src="https://s1.qwant.com/thumbr/474x266/0/d/23f69e6d41e03ba90a2915ecc30312a7f1b47247ca958ca78f8afe3243443e/OIP.8emirXe1xgx7G988PWy3sgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.8emirXe1xgx7G988PWy3sgHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Hina">
+    <h3>Hina</h3>
+  </div>
+
+  <!--Exemple de personnage 12-->
+  <div class="char-card" onclick="openModal('hirotsune')">
+    <img src="https://s1.qwant.com/thumbr/474x266/3/8/823f6f494e30b097beac8a4b0e8b7ea889ddcbcd6cf496d9eaa57c539a5c77/OIP.sGMIMCe9zvD9zE5dAWqybwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.sGMIMCe9zvD9zE5dAWqybwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Hirotsune Nagao">
+    <h3>Hirotsune Nagao</h3>
+  </div>
+
+  <!--Exemple de personnage 13 -->
+  <div class="char-card" onclick="openModal('hochi')">
+    <img src="https://s1.qwant.com/thumbr/474x266/2/5/6b18e9555786139d5658744922b77bc392063133b438acddd4e61a8e8eb194/OIP.wRGdf1SjiH4gjm5R3mny5wHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.wRGdf1SjiH4gjm5R3mny5wHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Hochi">
+    <h3>Hochi</h3>
+  </div>    
+
+     <!--Exemple de personnage 14 -->
+  <div class="char-card" onclick="openModal('ishikawa')">
+    <img src="https://s1.qwant.com/thumbr/474x266/8/4/b4fd8b46bf800c2b60b938038d1804493dc4c4708643d0823c63cab6331aa6/OIP.GUYi9slr8wNOlpNUaNdyxQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.GUYi9slr8wNOlpNUaNdyxQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Ishikawa-Sensei">
+    <h3>Ishikawa-Sensei</h3>
+  </div>
+
+
+  <!-- Exemple personnage 15-->
+  <div class="char-card" onclick="openModal('jin')">
+    <img src="https://s1.qwant.com/thumbr/474x266/3/8/4aab885dc572c3fdf8e5190b8d429688b0fd0c60a6133a3c00036fa98c18a3/OIP.NvsQuF-1-3a7AuvB2aP-xAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.NvsQuF-1-3a7AuvB2aP-xAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Jin Sakai">
+    <h3>Jin Sakai</h3>
+  </div>
+
+  <!--Exemple de personnage 16-->
+  <div class="char-card" onclick="openModal('jinroku')">
+    <img src="https://s2.qwant.com/thumbr/474x266/f/d/57313034130558806a4401890993d15131132b8adde4b3d66f34cbbf04f15e/OIP.3hp6FNx43Ij23b-w-DFFbQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.3hp6FNx43Ij23b-w-DFFbQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Jinroku">
+    <h3>Jinroku</h3>
+  </div>
+
+   <!--Exemple de personnage 16-->
+  <div class="char-card" onclick="openModal('junshin')">
+    <img src="https://s1.qwant.com/thumbr/474x266/0/3/45053a4c91a0dc914ca446a5ca6cecb067d03ca440674e54a9d363434efb99/OIP.fo3-1qIHDoWryaII72c7iAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.fo3-1qIHDoWryaII72c7iAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Junshin">
+    <h3>Junshin</h3>
+  </div>
+
+  <!--Exemple de personnage -->
+ <div class="char-card" onclick="openModal('kazumasa')">
+  <img src="https://s1.qwant.com/thumbr/474x237/3/a/59c408b269e48bd4e5bc8fd893577024d940a7878da49c9a0016b33f86bba3/OIP.YP1x8se-ubXWLJoesfPtcgHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.YP1x8se-ubXWLJoesfPtcgHaDt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Kazumasa Sakai">
+  <h3>Kazumasa Sakai</h3>
+ </div>
+
+  <!--Exemple de personnage -->
+   <div class="char-card" onclick="openModal('kenji')">
+    <img src="https://s1.qwant.com/thumbr/474x266/b/5/1546379face255f8c2b0ceba85eb9f267de7141bb755e845f95cf9df22af71/OIP.vRjL7AGA2pMjVYowS4FI_wHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.vRjL7AGA2pMjVYowS4FI_wHaEK%3Fpid%3DApi&q=0&b=1&p=0&a=0" alt="Kenji">
+    <h3>Kenji</h3>
+   </div>
+
+   <!-- Exemple de personnage -->
+ <div class="char-card" onclick="openModal('khan')">
+    <img src="https://s2.qwant.com/thumbr/474x266/d/5/e7989453eec7b45d84629b7182c386291201dd51f0399de2e8911585c3647f/OIP.0t_0Cyr4ahpBJ1Wer6TIkgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.0t_0Cyr4ahpBJ1Wer6TIkgHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Khothun Khan">
+    <h3>Khotun Khan</h3>
+ </div>
+
+ <!--Exemple de personnage -->
+ <div class="char-card" onclick="openModal('masako')">
+  <img src="https://s2.qwant.com/thumbr/474x266/5/b/369222363fc4dc3268955907cbbcbb95600c9e04bd92f6368a4d306773b3d7/OIP.4sYtDUBWl8DPCzhmj_PBKgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.4sYtDUBWl8DPCzhmj_PBKgHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Dame Masako">
+  <h3>Dame Masako</h3>
+ </div>
+
+ <!--Exemple de personnage -->
+  <div class="char-card" onclick="openModal('norio')">
+    <img src="https://s1.qwant.com/thumbr/474x266/a/5/689961820d930d82a2d7778e0a79389df3dbe6e211b58c429a907ef3e34e6c/OIP.KEyRBnB1ZEyMyo4ithvOgwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.KEyRBnB1ZEyMyo4ithvOgwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Norio">
+    <h3>Norio</h3>
+  </div>
+   
+  <!--Exemple de personnage -->
+ <div class="char-card" onclick="openModal('ryuzo')">
+   <img src="https://s2.qwant.com/thumbr/474x266/e/9/7fe30fad927d8f13c58de62d366e1339fa46e1399917aac57cd02a4ead07f0/OIP.YAS5JQTf-9-QOT7XTaq88wHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.YAS5JQTf-9-QOT7XTaq88wHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Ryuzo">
+   <h3>Ryuzo</h3>
+ </div>
+
+ <!--Exemple de personnage-->
+ <div class="char-card" onclick="openModal('shimura')">
+  <img src="https://s1.qwant.com/thumbr/474x247/1/e/55e0c6f7dfe537be1c9131984e9ae0a067e36f0fecab89a01e41c0caae52cd/OIP.oqQFR2KU9YALfr7A8eUfgAHaD3.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.oqQFR2KU9YALfr7A8eUfgAHaD3%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Shimura">
+  <h3>Shimura</h3>
+ </div>
+
+ <!--Exemple de personnage -->
+<div class="char-card" onclick="openModal('taka')">
+  <img src="https://s2.qwant.com/thumbr/474x266/6/8/9f19e125e6b375a857222b0f09e1db78e675c60b6ac56c18a6c5cdc3448b1f/OIP.NjZL03Xu4BrhM_BQtsZaSAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.NjZL03Xu4BrhM_BQtsZaSAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Taka">
+  <h3>Taka</h3>
+</div>
+
+<!--Exemple de personnage-->
+<div class="char-card" onclick="openModal('temuge')">
+  <img src="https://s2.qwant.com/thumbr/474x266/e/7/ebb1eb3b510a71f61fa1203c1915e32378569512128a10317aa83c5686a92f/OIP.-Y0epZC2_ag2d-CsQRBghgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.-Y0epZC2_ag2d-CsQRBghgHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Temuge">
+  <h3>Temuge</h3>
+</div>
+
+<!--Exemple de personage 12-->
+  <div class="char-card" onclick="openModal('tomoe')">
+    <img src="https://s2.qwant.com/thumbr/474x266/7/5/e6af5c3aaefaee8c6615d5ada4a64b97745bc8909e3126a4be9e0679aec1b8/OIP.ehsnj1ehXym98s87sY6ipQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.ehsnj1ehXym98s87sY6ipQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Tomoe">
+    <h3>Tomoe</h3>
+  </div>
+
+     <!--Exemple de personnage -->
+   <div class="char-card" onclick="openModal('yamato')">
+     <img src="https://s2.qwant.com/thumbr/474x266/f/b/2bac909e8c21f21194499355b632bfa3633b3093ea3886117de190e770f3d9/OIP.vsGzwilOuwR_kgmOFDYvNAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.vsGzwilOuwR_kgmOFDYvNAHaEK%3Fpid%3DApi&q=0&b=1&p=0&a=0" alt="Yamato">
+     <h3>Yamato</h3>
+    </div>
+
+    <!-- Exemple personnage -->
+  <div class="char-card" onclick="openModal('yuna')">
+    <img src="https://s1.qwant.com/thumbr/474x266/0/3/011f806f2405cfc12c49b5aa2c1e967f82b193c17d788016f3d8f61d60f2b1/OIP.Ji5aGfJrU7E9gQjRXVA6TQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.Ji5aGfJrU7E9gQjRXVA6TQHaEK%3Fpid%3DApi&q=0&b=1&p=0&a=0" alt="Yuna">
+    <h3>Yuna</h3>
+  </div>
+
+  <!--Exemple personnage-->
+  <div class="char-card" onclick="openModal('yuriko')">
+    <img src="https://s2.qwant.com/thumbr/474x266/e/7/5ca33f873dc3e74ad503863d92b7b575d6c21a4f970940534a247f0af6e5c8/OIP.sPZ72cKOWcAfOgfqmgCt2QHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.sPZ72cKOWcAfOgfqmgCt2QHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Yuriko">
+    <h3>Yuriko</h3>
+  </div>
+</div>
+
+  
+  <!-- Modales -->
+<div id="modal" class="modal">
+  <div class="modal-content" id="modalContent">
+    <a class="close-btn" onclick="closeModal()">X</a>
+    <h2 id="charName"></h2>
+    <p id="charDesc"></p>
+    <p id="charLore"></p>
+  </div>
+</div>
+
+
+<a href="lore debut.html" class="back-btn">⬅ Retour au menu du Lore</a>
+
+<script>
+// données des personnages
+const characters = {
+  jin: {
+    name:"Jin Sakai",
+    desc:"Héros de Ghost of Tsushima, samouraï du clan Sakai.",
+    lore:"Après l'invasion mongole, Jin doit protéger Tsushima et choisir entre honneur samouraï et méthodes de fantôme."
+  },
+
+  yuna: {
+    name:"Yuna",
+    desc:"Alliée de Jin, guérisseuse et stratège.",
+    lore:"Elle sauve Jin après sa première défaite et l'aide à devenir le fantôme qui défendra l'île.",
+  },
+
+  shimura: {
+    name:"Seigneur Shimura",
+    desc:"Jito de Tsushima, samouraï et leader du clan Shimura",
+    lore:"Il a élevé Jin comme son propre fils, il a malheureusement trop suivi à la lettre le code des samouraîs, ce qui lui a valu l'abandon de ce dernier."
+  },
+
+  khan: {
+    name:"Khotun Khan",
+    desc:"Chef de l'armée mongole",
+    lore:"Il est l'antagoniste principal, c'est lui qui a donné l'ordre d'attaquer l'île de Tsushima"
+  },
+
+  ryuzo: {
+    name:"Ryuzo",
+    desc:"Vieux yakuza et chef des chapeaux de pailles",
+    lore:"C'est un vieil ami de Jin, il l'aide dans sa quête du sauvetage du seigneur Shimura, il devient également par la suite un antagoniste secondaire."
+  },
+
+  ishikawa: {
+    name:"Ishikawa-Sensei",
+    desc:"Samouraï et archer renommé",
+    lore:"Il fait partit du clan Nagao, il aide Jin dans sa quête de défendre l'île et lui apprend les maîtrises de l'arc."
+  },
+
+  masako: {
+    name:"Dame Masako",
+    desc:"Guerrière et ami de longue date de Jin",
+    lore:"Elle aide Jin après le massacre de son clan, le clan Adachi, tué par des Japonais"
+  },
+
+  norio: {
+    name:"Norio",
+    desc:"Moine guerrier",
+    lore:"Avec l'aide de Jin, ils tentent de reprendre le temple Jogaku des mains des mongols"
+  },
+
+  kenji: {
+    name:"Kenji",
+    desc:"Marchand et brasseur de saké",
+    lore:"C'est un proche ami de Yuna et un allié de Jin, c'est également le meilleur escroc"
+  },
+
+  taka:{
+    name:"Taka",
+    desc:"Forgeron et frère cadet de Yuna",
+    lore:"Il était retenu en otage et a été libéré grâce à Jin, plus tard dans l'aventure, il meurt sous les coups de Khotun Khan"
+  },
+
+  kazumasa: {
+    name:"Kazumasa Sakai",
+    desc:"Père de Jin et samouraï du clan Sakai",
+    lore:"Après avoir perdu sa femme, Kazumasa se fit tuer par un bandit, laissant Jin à l'abandon, dans le jeu, il nous guide sous la forme du vent directeur"
+  },
+
+  tomoe: {
+    name:"Tomoe",
+    desc:"Archère redoutable et guerriere complexe",
+    lore:"Elle devient un antogoniste majeur que l'on suit tout au long du récit d'Ishikawa, par la suite elle devient l'alliée de Jin."
+  },
+  yamato: {
+    name:"Yamato",
+    desc:"Musicien et conteur de légendes anciennes",
+    lore:"C'est un conteur qui nous raconte les différents récits mythiques, qui sont des légendes, souvent liés à des armes d'anciens samouraïs"
+  },
+ altan: {
+  name:"Altan",
+  desc:"Général mongol",
+  lore:"Altan est un général se trouvant dans une forteresse à Otsuna, il apparaît dans la dernière mission confiée par Yuna"
+ },
+ baku: {
+  name:"Baku",
+  desc:"Vendeur",
+  lore:"Baku est un marchand qui apparaît dans la préfécturee d'Ariake, après avoir lancé une Newgame+, il vend des teintures, des armures, des chapeaux et des charmes."
+ },
+ bartu: {
+  name:"Bartu",
+  desc:"Général mongol",
+  lore:"Bartu est un général mongol qui se trouve au sud de la préfécture de Jogaku, il dirige un camp mongol qui doit est libéré après un duel traditionnel à l'épée contre ce dernier."
+ },
+ bettomaru: {
+  name:"Bettomaru",
+  desc:"Guerrier et samouraï",
+  lore:"Bettomaru est situé au sommet du mont Jogaku, il nous montre comment utiliser l'épee enflamée après un duel avec lui. "
+ },
+ dogar: {
+  name:"Dogar",
+  desc:"Général mongol",
+  lore:"Dogar est un général que l'on combat en duel lors de la libération du dojo d'Ogawa."
+ },
+ gyozen: {
+  name:"Gyozen",
+  desc:"Narrateur et guide",
+  lore:"Lors du mode Legends, il nous racontent et nous fait vivre des récits anciens."
+ },
+ hana: {
+  name:"Hana Adachi",
+  desc:"Soeur ainée de Masako et instigatrice de la destruction du clan Adachi",
+  lore:"C'est une antagoniste, elle éprouve une profonde rancoeur pour sa soeur, qu'elle tient responsable du mariage avec un homme du clan Kikuchi"
+ },
+ hanaoka :{
+  name:"Hanaoka",
+  desc:"Guérisseur",
+  lore:"Hanaoka est escorté par Jin jusqu'à un camp de survivants pour pouvoir les soigner, ils sont malheureusement arriver trop tard."
+ },
+ harunobu: {
+  name:"Harunobu",
+  desc:"Chef du clan Adachi et meilleur escrimeur de Tsushima",
+  lore:"Il est le chef du clan Adachi et est le descendant du légendaire Yoshinobu Adachi, il est marié à Dame Masako, il est mort en défendant l'île de Tsushima lors de la bataille de la plage de Komoda."
+ },
+ harunori:{
+  name:"Harunori",
+  desc:"Général mongol",
+  lore:"C'est un général mongol, on le combat en duel sur la baie d'Azamo"
+ },
+ hina:{
+  name:"Hina",
+  desc:"Femme de Sadao et belle-soeur de Hachi",
+  lore:"Elle est capturée par Dame Masako et Jin Sakai lors de leur enquête sur le génocide du clan Adachi, Hina est terrifiée par la nature vengeuse de Masako et préfère discuter avec Jin. Elle est par la suite assassinée par Hachi"
+ },
+ hirotsune:{
+  name:"Hirotsune Nagao",
+  desc:"Une des six lames de Kojiro et chef du clan Nagao",
+  lore:"Hirotsune Nagao est combattu lors d'un duel traditionnel, pendant la quête du récit mythiques des six lames de Kojiro"
+ },
+ hochi:{
+  name:"Hochi",
+  desc:"Moine",
+  lore:"Il est un ami de Norio et doit être secouru plusieurs fois lors de son récit."
+ },
+ jinroku:{
+  name:"Jinroku",
+  desc:"Faux samouraï",
+  lore:"Jinroku est rencontré lors de la quête l'autre côté de l'honneur, il se fait passer pour un faux seigneur et samouraî pour essayer de se faire une réputation"
+ },
+ junshin:{
+  name:"Junshin",
+  desc:"Moine",
+  lore:"Il apporte une aide humanitaire aux habitants, il a par exemple, transformer le temple d'or en un camp pour civils"
+ },
+ yuriko:{
+  name:"Yuriko",
+  desc:"Servante du clan Sakai",
+  lore:"Elle a élevé Jin dans le village d'Omi, elle est une figure maternelle pour lui, elle possède une excellente connaissance en botanique et les utilisent pour créer potions et flèches à la fin de son récit, elle meurt après avoir partagé des souvenirs avec Jin"
+ },
+ temuge:{
+  name:"Temuge",
+  desc:"Général mongol",
+  lore:"Il est l'un des meilleurs général du Khan, il reconnaît que Jin est digne de sa réputation de fantôme."
+ }
+ 
+
+
+};
+
+function openModal(charId) {
+  const char = characters[charId];
+  if(!char) return;
+  document.getElementById('charName').textContent = char.name;
+  document.getElementById('charDesc').textContent = char.desc;
+  document.getElementById('charLore').textContent = char.lore;
+  document.getElementById('modal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('modal').style.display = 'none';
+}
+
+</script>
+</body>
+</html>

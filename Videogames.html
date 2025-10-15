@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Bibliothèque de jeux</title>
+  <style>
+    body{font-family:Arial,Helvetica,sans-serif;background:#111;color:#eee;margin:0;padding:0}
+    header{background:#1b1b1b;padding:20px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+    h1{color:#00ffc3;margin:0}
+    .container{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:30px}
+    .console-card,.game-card{background:#1f1f1f;border-radius:12px;padding:20px;box-shadow:0 3px 8px rgba(0,0,0,.5);transition:transform .18s,box-shadow .18s}
+    .console-card{width:220px;text-align:center;cursor:pointer}
+    .console-card:hover{transform:scale(1.05);box-shadow:0 0 14px rgba(0,255,195,.3)}
+    .game-card{width:340px;text-align:left;cursor:pointer}
+    .game-card img{width:100%;height:170px;object-fit:cover;border-radius:8px}
+    .status{display:inline-block;padding:6px 12px;border-radius:8px;font-weight:600;margin-top:10px}
+    .termine{background:#00b894;color:#fff}
+    .encours{background:#0984e3;color:#fff}
+    .noncommence{background:#d63031;color:#fff}
+    .soluce-link{display:inline-block;margin-top:10px;padding:8px 12px;background:#00ffc3;color:#000;border-radius:8px;text-decoration:none;font-weight:700}
+    .back-button{display:inline-block;margin:10px 0 20px 0;padding:8px 10px;background:#00ffc3;color:#000;border-radius:8px;cursor:pointer;font-weight:700}
+    iframe{border:none;border-radius:10px;margin-top:10px}
+    .quest{background:#2a2a2a;border-radius:8px;padding:10px;margin-top:8px}
+    .quest strong{color:#00ffc3}
+    .map-container{margin-top:15px}
+    #searchBar{display:none;text-align:center;margin-top:30px}
+    select,input{padding:6px;border-radius:6px;margin:4px}
+    
+     #siteFooter {
+    background: #0c0c0c;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 22px 10px;
+    margin-top: 30px;
+    border-top: 2px solid #222;
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+    z-index: 10;
+  }
+  #siteFooter .footer-links { margin: 10px 0; }
+  #siteFooter .footer-links a {
+    color: #f2f2f2;
+    margin: 0 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color .2s;
+  }
+  #siteFooter .footer-links a:hover { color: #00ffc3; }
+  #siteFooter .quote { font-style: italic; font-size: .9em; margin-top: 8px; opacity: .8; }
+
+  /* Modales */
+  .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,.7); }
+  .modal-content { background:#222; color:#fff; margin:8% auto; padding:18px; border-radius:12px; width:90%; max-width:700px; position:relative; }
+  .modal-content h2 { color:#00ffc3; margin-top:0; }
+  .close { position:absolute; top:10px; right:14px; font-size:24px; cursor:pointer; }
+  .close:hover { color: #ff6b6b; }
+
+
+  .main-btn {
+  display: inline-block;
+  background: #ffcc00;
+  color: #000;
+  font-family: 'Press Start 2P', cursive;
+  padding: 15px 25px;
+  border-radius: 15px;
+  text-decoration: none;
+  font-size: 1em;
+  margin: 20px;
+  border: 2px solid #000;
+  transition: 0.3s;
+}
+
+.main-btn:hover {
+  background: #ffaa00;
+  transform: scale(1.1);
+}
+
+  </style>
+</head>
+<body>
+  <header><h1 id="pageTitle">🎮 Choisis ta plateforme</h1></header>
+
+  <div id="searchBar">
+    <input id="searchInput" placeholder="Rechercher un jeu...">
+    <select id="genreFilter"></select>
+    <select id="sousGenreFilter"></select>
+  </div>
+
+<!--Lores et histoires des jeux-->
+<div class="footer-links">
+   <a href="lore debut.html" id="loreButton" class="main-btn">📚 Lore</a>
+</div>
+
+  <div class="container" id="mainContainer"></div>
+
+  <script>
+
+  // Bouton "Retour en haut"
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+  if(scrollTopBtn){
+    scrollTopBtn.addEventListener('click', e => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // Liens modales
+  const aboutModal = document.getElementById('aboutModal');
+  const legalModal = document.getElementById('legalModal');
+  const aboutLink = document.getElementById('aboutLink');
+  const legalLink = document.getElementById('legalLink');
+
+  if(aboutLink){
+    aboutLink.addEventListener('click', e => {
+      e.preventDefault();
+      aboutModal.style.display = 'block';
+    });
+  }
+  if(legalLink){
+    legalLink.addEventListener('click', e => {
+      e.preventDefault();
+      legalModal.style.display = 'block';
+    });
+  }
+
+  // Boutons fermer (X)
+  document.querySelectorAll('.close').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-target');
+      if(target === 'aboutModal') aboutModal.style.display = 'none';
+      if(target === 'legalModal') legalModal.style.display = 'none';
+    });
+  });
+
+  // Fermer en cliquant en dehors
+  window.addEventListener('click', e => {
+    if(e.target === aboutModal) aboutModal.style.display = 'none';
+    if(e.target === legalModal) legalModal.style.display = 'none';
+  });
+
+    const games = [
+      {
+        nom:"Ghost of Tsushima",
+        image:"https://tse1.mm.bing.net/th?id=OIP.LkXipPmSQq5F_n0oDxWBcwHaEK&pid=Api",
+        description:"Jin Sakai doit sauver l'île de Tsushima envahie par les Mongols.",
+        genre:"Action-Aventure, Monde ouvert",
+        sousGenre:"Infiltration, Exploration, Combat tactique",
+        consoles:["PS5"],
+        statut:"Terminé",
+        soluce:"https://www.supersoluce.com/soluce/ghost-tsushima/soluce-ghost-tsushima",
+        trailer:"https://www.youtube.com/embed/Zbq7BnsQhrw",
+        quetes:[
+          {titre:"Les six lames de Kojiro",
+          description:" Une quête mythique où vous affrontez cinq boss successifs avant un dernier boss, Kojiro, considéré comme l'un des plus difficiles du jeu. Chaque boss a des patterns d'attaque spécifiques et exige une grande maîtrise des mécaniques de combat.",
+          lienSoluce:"https://www.supersoluce.com/soluce/ghost-tsushima/les-six-lames-de-kojiro"
+         },
+          {titre:"La vengeance de l'esprit de Yarikawa",
+          description:"Cette quête met en scène un combat contre l'esprit de Yarikawa, qui utilise des attaques défensives et des techniques de combat inhabituelles.Le combat est particulièrement difficile car l'ennemi est constamment en mouvement et utilise des attaques imprévisibles.",
+          lienSoluce:"https://www.supersoluce.com/soluce/ghost-tsushima/l-esprit-vengeur-de-yarikawa"
+        }
+        ],
+        carte:"https://mapgenie.io/ghost-of-tsushima/maps/tsushima"
+      },
+
+
+    {nom:"Assassin's Creed: Valhalla",
+     image: "https://s1.qwant.com/thumbr/474x266/a/5/9acc84c09208353c70e510bb843d87e761c21d58f12480b95aa41e988818ba/OIP.SF_hcgNnE4bHG96BEIhsfQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.SF_hcgNnE4bHG96BEIhsfQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0",
+     description:"Assassin's Creed Valhalla est un jeu d'action-aventure et de rôle développé par Ubisoft Montréal, sorti en novembre 2020. Il se déroule au IXe siècle, pendant l'ère viking, et suit Eivor, un chef viking en quête de gloire et de fortune, qui quitte la Norvège pour coloniser l'Angleterre. Le jeu mêle histoire, mythologie nordique et gameplay immersif, avec un monde ouvert incluant des environnements variés comme Londres, Winchester, et des fjords norvégiens.",
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Infiltration, Exploration, Combat tactique", 
+    consoles:["PS5","PS4","Xbox One","Xbox Series X","Stadia","PC"], 
+    statut: "En cours", 
+    soluce:"https://www.supersoluce.com/soluce/assassin-s-creed-valhalla/soluce-assassin-s-creed-valhalla",
+    trailer:"https://www.youtube.com/embed/yaoUZKnLvVA?feature=oembed",
+    quetes:[
+     {titre:"Quêtes de l'ordre des anciens",
+     description:" Ces quêtes impliquent des combats contre des membres puissants de l’Ordre. Elles nécessitent une bonne préparation, des compétences avancées et un équipement de qualité.",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-valhalla/ordre-des-anciens"
+    },
+    {titre:"Quêtes de boss",
+    description:"Certaines quêtes principales et annexes impliquent des combats contre des boss redoutables. Par exemple, la quête Le Serment contre le roi Burgred ou Le Sang des Rois contre le roi Guthrum.",
+    lienSoluce:"https://www.youtube.com/watch?v=V_cCQ5P8_mk"
+    }
+    ],
+     carte:"https://www.breakflip.com/guide/assassins-creed-valhalla/map-ac-valhalla-carte-interactive-complete-24045"
+   },
+
+
+    {nom:"Assassin's Creed: Odyssey", 
+    image: "https://s2.qwant.com/thumbr/474x266/d/5/646334183e0ae7731f35bf910df125deefddf3a33eabdf4e9f2628825a37b6/OIP.ucZq7q3Y-gg0fnCkzdfB2QHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.ucZq7q3Y-gg0fnCkzdfB2QHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "L'intrigue principale suit le mercenaire dans sa quête pour retrouver sa famille et affronter le Culte de Kosmos, une organisation secrète manipulant les deux camps. Le joueur explore la Grèce antique, participe à des batailles navales, et découvre des artefacts liés à la Première Civilisation, une race avancée ayant créé l'humanité.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Infiltration, Exploration, Combat tactique", 
+    consoles:["PS5","PC","Stadia","Switch","Xbox One"], 
+    statut: "Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/assassin-s-creed-odyssey/soluce-assassin-s-creed-odyssey",
+    trailer:"https://www.youtube.com/embed/6F8L3d_OIE0?feature=oembed",
+    quetes:[
+     {titre:"Les portes de l'Atlantide",
+     description:"Cette quête finale implique de rassembler les quatre artefacts Isu et de convaincre Pythagore de vous remettre le bâton. La confrontation avec Pythagore peut être particulièrement ardue si vous choisissez la voie de la violence.",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-odyssey/les-portes-de-l-atlantide"
+     },
+     {titre:"Les quêtes du culte de Kosmos",
+    description:"Ces missions impliquent souvent des combats contre des ennemis surpuissants et des énigmes complexes, nécessitant une bonne préparation et des compétences de combat avancées.",
+    lienSoluce:"https://www.practical-tips.com/fr/games/assassins-creed-odyssey-ou-trouver-les-42-cultistes/"
+     }
+    ],
+    carte:"https://www.ign.com/maps/assassins-creed-odyssey"
+    },
+
+
+    {nom:"Assassin's Creed: Origins", 
+    image: "https://s2.qwant.com/thumbr/474x322/6/2/6b57a7a564a0988b65a2d11fd0d43fd312b7fa45cce96398d84fd3a7329172/OIP.8w0Ur0CqRhSu0LvmbGYDLgHaFC.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.8w0Ur0CqRhSu0LvmbGYDLgHaFC%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Le jeu plonge les joueurs dans une Égypte marquée par des conflits politiques, des tensions sociales et l'influence croissante de Rome. Les villes d'Alexandrie, Memphis, Gizeh et Cyrène, ainsi que les vastes déserts, oasis et ruines anciennes, recréent une Égypte immersive, mêlant réalisme historique et éléments mythologiques. Bayek et Aya découvrent que les hommes masqués appartiennent à l'Ordre des Anciens, une organisation secrète cherchant à dominer l'Égypte. Leur quête de vengeance les conduit à s'allier temporairement avec Cléopâtre VII et Jules César, tout en luttant contre l'Ordre des Anciens. Leur parcours les amène à fonder une confrérie secrète, « Ceux qu'on ne voit pas », pour combattre l'oppression et défendre la liberté du peuple.", genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Infiltration, Exploration, Combat tactique", 
+    consoles:["PC","Xbox One","PS4","PS5"], 
+    statut: "Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/assassin-s-creed-origins/soluce-assassin-s-creed-origins",
+    trailer:"https://www.youtube.com/embed/VkPZpT0bS68?feature=oembed",
+    quetes:[
+     {titre:"Les sept paysans",
+     description:"Cette quête secondaire, disponible au niveau 30 dans le Nome d’Ouab, est notée pour son défi de combat contre sept adversaires redoutables.",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-origins/les-sept-paysans"
+     },
+     {titre:"Les défis des dieux (Trials of the Gods)",
+     description:"Bien que ce ne soit pas une quête principale, ces défis temporaires sont extrêmement difficiles et nécessitent une maîtrise avancée des mécaniques de jeu.",
+     lienSoluce:"https://www.jeuxvideo.com/wikis-soluce-astuces/745473/evenement-trials-of-the-gods-defis-des-dieux.htm"
+     }
+    ],
+     carte:"https://www.ign.com/maps/assassins-creed-origins"
+    },
+
+
+    {nom:"Assassin's Creed: Syndicate", 
+    image: "https://s2.qwant.com/thumbr/474x296/e/c/b683f1b6e5b115ba7b0818225d85628fa3fae0f26a54103feb962af59a683b/OIP.7ErjL1JKnVfK7UOk4dJLkQHaEo.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.7ErjL1JKnVfK7UOk4dJLkQHaEo%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Le jeu se déroule à Londres en 1868, durant l'ère victorienne, une période marquée par la révolution industrielle et les inégalités sociales. La ville est sous le contrôle des Templiers, qui dominent divers secteurs clés comme l'industrie, les transports, la médecine, la politique et le crime organisé. Jacob et Evie Frye arrivent à Londres avec pour mission de vaincre Crawford Starrick, le Grand Maître des Templiers. Leurs approches divergent : Jacob se concentre sur la formation d'un gang pour libérer la ville, tandis qu'Evie cherche à retrouver un artefact de la première civilisation. Leur quête les mène à affronter divers alliés et ennemis, dont des figures historiques comme Charles Darwin et Charles Dickens.", 
+    genre:"Action-Aventure, Monde ouvert", 
+    sousGenre:"Infiltration, Exploration, Combat tactique", 
+    consoles:["PS4","PS5","Xbox One","PC"], 
+    statut: "Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/assassin-s-creed-syndicate/soluce-assassin-s-creed-syndicate",
+    trailer:"https://www.youtube.com/embed/kaKgAXjowsQ?feature=oembed",
+    quetes:[
+     {titre:"Chasse au Templiers",
+     description:"Ces quêtes impliquent souvent des combats contre des ennemis puissants et bien équipés. Elles nécessitent une bonne maîtrise des mécaniques de combat et de stealth.",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-syndicate/chasses-aux-templiers"
+     },
+     {titre:"Guerres de bandes",
+     description:"Pour rallier les gangs de Londres à votre cause, vous devrez affronter des ennemis de plus en plus forts, surtout à mesure que vous progressez dans le jeu.",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-syndicate/guerre-de-bandes"
+     }
+    ],
+     carte:"https://www.ign.com/maps/assassins-creed-syndicate"
+    },
+
+
+    {nom:"Assassin's Creed: Unity", 
+    image: "https://s1.qwant.com/thumbr/474x266/8/b/b6ea025959713c8157531411cc4af18511b17bc4c539e87df34d7d3528ad8b/OIP.Vb6n4QRtusB8YOOgyyhKugHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.Vb6n4QRtusB8YOOgyyhKugHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Le joueur incarne Arno Victor Dorian, un jeune homme orphelin qui rejoint la Confrérie des Assassins après avoir été adopté par un Templier. Son objectif est de venger la mort de son père adoptif et de combattre la corruption au sein de l'Ordre des Templiers.", 
+    genre:"Action-Aventure, Monde ouvert", 
+    sousGenre:"Infiltration, Exploration, Combat tactique", 
+    consoles:["PC","PS4","PS5","Xbox One"], 
+    statut: "Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/assassin-s-creed-unity/soluce-assassin-s-creed-unity",
+    trailer:"https://www.youtube.com/embed/DOgYM_24AuU?feature=oembed",
+    quetes:[
+     {titre:"La chasse aux Cocardes",
+     description:"Trouver toutes les cocardes peut être un défi en raison de leur emplacement caché.",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-unity/les-cocardes"
+     },
+     {titre:"Les énigmes de Nostradamus",
+     description:"Ces énigmes peuvent être particulièrement frustrantes en raison de leur complexité et de leurs façons d'être résolus",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-unity/enigmes-de-nostradamus"
+     }
+    ],
+    carte:"https://www.ign.com/maps/assassins-creed-5-unity"
+    },
+
+    {nom:"Assassin's Creed: Rogue",
+    image: "https://s2.qwant.com/thumbr/474x474/d/c/e22e2aa366fbcb3ca0ad90c25c4213dee9313ca91693fdce4d763888f33db3/OIP.BjvvB3hgBumEN9QrxfmmIwHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.BjvvB3hgBumEN9QrxfmmIwHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0",
+    description:"Assassin's Creed Rogue se déroule pendant la guerre de Sept Ans, au milieu du XVIIIe siècle. Il s'inscrit chronologiquement entre Assassin's Creed IV: Black Flag et Assassin's Creed III, et sert de prologue à Assassin's Creed Unity. Shay, jeune Assassin, participe à une mission au Portugal pour récupérer un fragment d'Eden. Cependant, ses actions déclenchent un tremblement de terre qui détruit Lisbonne, le poussant à remettre en question les motivations des Assassins. Trahi par les Assassins, Shay se réfugie à New York où il est recruté par les Templiers. Il devient un chasseur d'Assassins, éliminant plusieurs membres de la Confrérie, dont Adéwalé et Hope Jensen. Shay est intronisé par Haytham Kenway, le Grand Maître des Templiers, et continue sa quête pour récupérer les artefacts des Précurseurs. Shay se rend à Paris pour assassiner Charles Dorian, un Assassin français, et récupérer la boîte des Précurseurs, établissant ainsi un lien avec Assassin's Creed Unity.",
+    genre:"Action-Aventure, Monde ouvert",
+    sousGenre:"Infiltration, Exploration, Combat tactique",
+    consoles:["PS3","Switch","Xbox One","Xbox 360","PS4","PS5","PC"],
+    statut:"Terminé",
+    soluce:"https://www.jeuxvideo.com/wikis-soluce-astuces/345697/assassin-s-creed-rogue-solution-complete.htm",
+    trailer:"https://www.youtube.com/embed/wsi2n2hTP4M?feature=oembed",
+    quetes:[
+     {titre:"La chasse aux trésors",
+     description:"Cette quête est particulièrement difficile en raison des zones dangereuses et hostiles durant la navigation, des énigmes environnementales qui sont basées sur l'observation et la manipulation de l'environnement, ainsi que des combats contres des créatures marines",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-rogue/cartes-des-templiers-et-reliques-templieres"
+     },
+     {titre:"Interceptions d'assassins",
+     description:"Cette quête peut s'avérer longue car il faut attraper un oiseau avant qu'il s'envole, si c'est le cas il faudra revenir plus tard, ce qui est perturbant si on veut faire un speedrun ou 100%",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-rogue/interceptions-d-assassins"
+     }
+    ],
+     carte:"https://www.ign.com/maps/assassins-creed-rogue"
+    },
+
+
+    {nom:"Assassin's Creed: Freedom Cry",
+    image:"https://s2.qwant.com/thumbr/474x474/5/8/565547f0ffbba1d6838459044b307f672f599d8c3443c4af46c1ff8ac01092/OIP.ZrJevVH3t5FLDZRg4YKFIwHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.ZrJevVH3t5FLDZRg4YKFIwHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0",
+    description:"Assassin's Creed Freedom Cry se déroule entre 1735 et 1737 dans la colonie française de Saint-Domingue (actuelle Haïti). Le jeu suit Adéwalé, un ancien esclave de Trinité et quartier-maître du protagoniste d'Assassin's Creed IV: Black Flag, Edward Kenway. Adéwalé, désormais membre de la Confrérie des Assassins, tente de perturber les activités des Templiers dans les Caraïbes. ",
+    genre:"Action-Aventure, Monde ouvert",
+    sousGenre:"Infiltration, Exploration, Combat tactique",
+    consoles:["PS3","PS4","PC","Switch","Xbox One","Xbox 360"],
+    statut:"Terminé",
+    soluce:"https://www.supersoluce.com/jeu/assassin-s-creed-iv-black-flag-le-prix-de-la-liberte",
+    trailer:"https://www.youtube.com/embed/v33n30PAwmg?feature=oembed",
+    quetes:[], //aucune quête
+     carte:""
+    },
+
+
+    {nom:"Assassin's Creed IV: Black Flag",
+    image:"https://s1.qwant.com/thumbr/474x474/9/b/c3678e3326182c1bb10c8d4906934ac136df481f660e203153d4edf38246d4/OIP.Oxu6po1AtH7-9sqa7IiAawHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.Oxu6po1AtH7-9sqa7IiAawHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0",
+    description:"Assassin's Creed IV: Black Flag se déroule pendant l'âge d'or de la piraterie, entre 1715 et 1722, dans les Caraïbes. Le jeu explore la lutte millénaire entre les Assassins et les Templiers, avec une intrigue centrée sur la recherche d'un artefact mystérieux appelé l'Observatoire. Le joueur incarne Edward Kenway, un pirate gallois qui se retrouve impliqué dans le conflit entre Assassins et Templiers après avoir tué un Assassin nommé Duncan Walpole. Edward découvre une conspiration impliquant des Templiers haut placés dans les empires britannique et espagnol, qui cherchent à localiser l'Observatoire, un artefact capable de surveiller et de manipuler les dirigeants mondiaux.",
+    genre:"Action-Aventure, Monde ouvert",
+    sousGenre:"Infiltration, Exploration, Combat tactique",
+    consoles:["PS3","Xbox 360","Wii U","PS4","PC","Xbox One","Switch","PS5"],
+    statut:"Terminé",
+    soluce:"https://www.supersoluce.com/soluce/assassin-s-creed-iv-black-flag/soluce-assassin-s-creed-iv-black-flag",
+    trailer:"https://www.youtube.com/embed/wyY5xAG13V4?feature=oembed",
+    quetes:[
+     {titre:"Affrontement naval contre les navires légendaires",
+     description:"Ces navires imposants nécessitent une maîtrise avancée des combats maritimes, avec une gestion précise des angles d'attaque, de la portée des canons et des manœuvres d'évitement.",
+     lienSoluce:"https://www.supersoluce.com/soluce/assassin-s-creed-iv-black-flag/les-navires-legendaires-succestrophees-diable-des-caraibes"
+     }
+    ],
+    carte:"https://www.ign.com/maps/assassins-creed-4-black-flag"
+    },
+
+
+    {nom:"Bloodborne", 
+    image: "https://s2.qwant.com/thumbr/474x266/d/d/61014b80b3bbf929383bd152cbc61b631c9d5bb459639a925b01e75222a738/OIP.mAO7mzKXesHuKENZeMFJPgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.mAO7mzKXesHuKENZeMFJPgHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Le joueur arrive à Yharnam et est rapidement plongé dans un cauchemar où il doit affronter des créatures cauchemardesques. En explorant la ville, il découvre les sombres secrets de Yharnam et les origines de l'épidémie. Les habitants vénéraient autrefois les Grands Anciens, des êtres cosmiques, pour leur sang guérisseur, qui s'avère être la source de la contamination.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Exploration, Dark fantasy", 
+    consoles:["PS4","PS5"], 
+    statut: "En cours", 
+    soluce:"https://www.supersoluce.com/soluce/bloodborne/guide-bloodborne",
+    trailer:"https://www.youtube.com/embed/G203e1HhixY?feature=oembed",
+    quetes:[
+     {titre:"Quête de la tour astrale",
+     description:"Cette quête implique de combattre plusieurs boss redoutables, dont Lady Maria de la Tour Astrale, l'un des boss les plus difficiles du jeu. La quête nécessite une bonne maîtrise des mécaniques de combat et une préparation minutieuse.",
+     lienSoluce:"https://handisupbretagne.org/comment-vaincre-lady-maria-dans-bloodborne-et-ses-recompenses/"
+     },
+     {titre:"La quête de la Forteresse des Caithness",
+     description:"Cette quête implique de vaincre Ludwig la lame maudite, l'Orphelin de Kos et Laurence la première vicaire qui sont trois boss extremement difficiles, il faut avoir des timing parfaits, des esquive sans faille, un bon équipement et il faut également connaître le patterne de chaque boss"
+     }
+    ],
+    carte:""
+    },
+
+
+    {nom:"Demon's Souls", 
+    image: "https://s1.qwant.com/thumbr/474x474/1/3/b314ae7a81f6dd20ddc36e1d59ccbd7da267de40dd11b772bbb174d0e364b1/OIP.qeiab8kkXbWnbExlgeI0LAHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.qeiab8kkXbWnbExlgeI0LAHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Le joueur incarne un héros arrivé à Boletaria pour mettre fin au règne de terreur de l'Old One. Après avoir été tué lors de son arrivée, le héros se réveille dans le Nexus, un hub central, où il rencontre la Maiden in Black, une démonesse bienveillante. Le joueur doit explorer cinq régions de Boletaria, vaincre des démons puissants et absorber leurs âmes pour augmenter sa puissance. L'objectif final est de vaincre le roi Allant, qui se révèle être un imposteur démoniaque, et d'affronter l'Old One.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Exploration, Dark fantasy", 
+    consoles:["PS3","PS5"], 
+    statut: "En cours", 
+    soluce:"https://www.supersoluce.com/soluce/demon-s-souls-remake/soluce-demon-s-souls-remake",
+    trailer:"https://www.youtube.com/embed/2TMs2E6cms4?feature=oembed",
+    quetes:[
+     {titre:"La quête de la Clé de la Tour de Latria",
+     description:"Cette quête nécessite de trouver et de récupérer une clé spécifique dans une zone difficile, ce qui peut être un défi pour les joueurs.",
+     lienSoluce:"https://www.supersoluce.com/soluce/demon-s-souls-remake/tour-de-latria"
+     },
+     {titre:"La quête de la jeune fille en noir",
+     description: "Bien que cette quête ne soit pas particulièrement difficile en termes de combat, elle peut être complexe à comprendre et à suivre, car elle implique plusieurs étapes et interactions avec différents PNJ.",
+     lienSoluce:"https://www.supersoluce.com/soluce/demon-s-souls-remake/jeune-fille-en-noir"
+     }
+    ],
+    carte :""
+    },
+
+
+    {nom:"Yokai Watch 3", 
+    image: "https://s2.qwant.com/thumbr/474x237/7/9/283f66465c20df4f5db1e45acd5e8d4cfd5f6f1dd36e75bd6c41f798858d45/OIP.k0xhQrz9QzSztRoAdlm8rQHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.k0xhQrz9QzSztRoAdlm8rQHaDt%3Fpid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Yo-kai Watch 3 suit les aventures de deux protagonistes principaux : Nathan Adams et Hailey Anne Thomas. Nate, un garçon de 11 ans, déménage de Granval-sur-mer à la ville fictive de BBQ dans le sud des États-Unis. Il y rencontre Buck Hazeltine, un garçon capable de voir les Yo-kai grâce à une pierre UFO. Ensemble, ils enquêtent sur des mystères locaux. Hailey, quant à elle, ouvre une agence de détectives à Sparkopolis avec son ami Usapyon. Elle résout des énigmes et des demandes émanant à la fois des Yo-kai et des humains.Les histoires de Nate et Hailey finissent par se croiser, les menant à affronter Ghoulfather, un antagoniste inspiré des films de gangsters classiques, qui cherche à remodeler le monde selon ses désirs.Le jeu mêle humour et parodie, s'inspirant de la culture pop, de la science-fiction et des tropes classiques de résolution d'énigmes.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Exploration, Stratégie, Combat au tour par tour", 
+    consoles:["3DS"], 
+    statut: "Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/youkai-watch-3/soluce-yo-kai-watch-3",
+    trailer:"https://www.youtube.com/embed/iwFzJGQKefc?feature=oembed",
+    quetes:[
+     {titre:"L'ordre secret du conseil Yo-kai",
+     description:"Cette quête implique des combats contre des Yo-kai puissants et nécessite une préparation minutieuse. Cette quête est disponible à partir du chapitre 11.",
+     lienSoluce:"https://www.supersoluce.com/soluce/youkai-watch-3/l-ordre-secret-du-conseil-yo-kai"
+     },
+     {titre:"Les quêtes des étages oniriques",
+     description:"Ces quêtes, comme Évasion ! Étage onirique - lune ou Performance ! Étage onirique - or, sont particulièrement difficiles en raison des mécaniques de jeu uniques et des ennemis puissants. Cette quête est disponible à partir du chapitre 10.",
+     lienSoluce:"https://www.supersoluce.com/soluce/youkai-watch-3/chapitre-10-la-poursuite-du-reve-yo-kai",
+     }
+    ],
+    carte:"",
+    },
+
+
+    {nom:"Dragon Quest XI", 
+    image:"https://s1.qwant.com/thumbr/474x266/a/2/52df6f9ad78489afaf9ab6f6038f6b24fdc166a185ec8755dbe06f907152b2/OIP.TYgnHjHbCCMd0WABnwuJEAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.TYgnHjHbCCMd0WABnwuJEAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description:"Dragon Quest XI : Les Combattants de la destinée suit l'histoire d'un jeune homme, l'Éclairé, qui découvre lors de son rite de passage à l'âge adulte qu'il a été adopté et qu'il pourrait être un Éclairé, un être destiné à sauver le monde. Le jeu se déroule dans le monde d'Erdrea, un univers fantastique où le joueur explore divers environnements, des villages pittoresques aux vastes déserts et mers infinies.L'histoire est divisée en actes, chacun marquant un changement dramatique dans l'environnement et le ton du jeu. Le protagoniste, accompagné de compagnons variés, part à la quête de son identité et de sa destinée, affrontant des monstres et résolvant des énigmes pour sauver l'humanité.Le jeu met en avant des combats au tour par tour, des quêtes secondaires riches et variées, et une exploration approfondie d'un monde ouvert. Les personnages rencontrés tout au long de l'aventure apportent des éléments clés à l'intrigue, révélant progressivement la vérité sur l'identité du protagoniste et sa mission.Dragon Quest XI est un hommage aux précédents épisodes de la série, tout en apportant des innovations comme la possibilité de sauter, traverser des rivières et escalader des montagnes, enrichissant ainsi l'expérience de jeu.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Combat au tour par tour, JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["PS4","PS5","3DS","Xbox One","Xbox Series X","Switch","PC"], 
+    statut:"Terminé", 
+    soluce:"https://dragonquest-fan.com/dragonquest11/solution.php",
+    trailer:"https://www.youtube.com/embed/PgfOu4dEIDw?feature=oembed",
+    quetes:[
+     {titre:"Complétion du bestiaire",
+     description:"Le bestiaire de Dragon Quest 11 comprend une variété de créatures, dont des dragons, avec des détails sur leurs points de vie, l'expérience donnée, leurs localisations et le butin qu'elles laissent après combat.",
+     lienSoluce:"https://www.supersoluce.com/soluce/dragon-quest-xi-les-combattants-de-la-destinee/bestiaire"
+     }
+    ],
+    carte:"https://www.ign.com/wikis/dragon-quest-xi/Walkthrough"
+   },
+
+
+    {nom:"Dragon Quest IX", 
+    image: "https://s1.qwant.com/thumbr/474x266/9/e/d46e97e366c9b957559c2d429f563abfa09b401ccdbcf7ee287d77d699c5a6/OIP.gK3SbjxVpnaYvUhzx6ymgwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.gK3SbjxVpnaYvUhzx6ymgwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Dans un univers médiéval fantastique, les Célestelliens, une race angélique, veillent sur les mortels depuis leur Observatoire céleste. Leur mission est de recueillir la bienveillessence, une énergie spirituelle, pour nourrir l'Yggdrasil, un arbre sacré. Lorsque l'Yggdrasil produit des fruits magiques appelés fyggs, un train céleste, l'Orion Express, doit emmener les Célestelliens vers le royaume du Tout-Puissant.Le joueur incarne un jeune Célestellien sous la tutelle d'Aquila. Après un cataclysme provoqué par un rayon violet, le joueur se retrouve projeté dans le monde des mortels, perdant ses ailes et son auréole. Avec l'aide de Stella, une fée, le joueur doit récupérer les fyggs dispersés et restaurer l'Orion Express pour retourner à l'Observatoire.Au cours de son aventure, le joueur découvre que les fyggs ont des effets imprévisibles sur les mortels et qu'un empire maléfique, l'Empire Klenfer, est impliqué dans le cataclysme. Le joueur affronte divers ennemis, dont des généraux de l'Empire et le roi Govin, tout en découvrant la vérité sur l'origine du mal et le rôle des Célestelliens.Le jeu explore des thèmes de croissance, d'indépendance et de rédemption, avec une narration qui met l'accent sur les choix du joueur et ses interactions avec les personnages. Le joueur doit finalement affronter Corvus, un Célestellien déchu, pour sauver le monde et accomplir la prophétie des Célestelliens.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Combat au tour par tour, JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["DS","3DS"], 
+    statut: "En cours", 
+    soluce:"https://dragonquest-fan.com/dragonquest9/solution.php",
+    trailer:"https://www.youtube.com/embed/WYizxEJft4o?feature=oembed",
+    quetes:[
+     {titre:"Baramos",
+     description:"Un des méchants emblématiques de la série, présent dans les antres des legacy boss. Ces antres sont les plus difficiles mais aussi les plus simples à expliquer, car ils ne comportent qu'un seul étage avec un seul boss.",
+     lienSoluce:"https://www.jeuxvideo.com/wikis-soluce-astuces/carte-de-baramos/225327"
+     }
+    ],
+     carte:"https://www.ign.com/wikis/dragon-quest-ix-sentinels-of-the-starry-skies/Atlas"
+    },
+
+
+    {nom:"Dragon Quest VIII", 
+    image: "https://s2.qwant.com/thumbr/474x266/6/7/ac97ada999cbf4e14cfc652ef7a1dbdf96979da6a979f464439b4e06ac5f9b/OIP.p_ySqb6iHu5xfmh2en5E9gHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.p_ySqb6iHu5xfmh2en5E9gHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "L'histoire commence lorsque le bouffon maléfique Dhoulmagus vole un sceptre maudit du château de Trodain. Il transforme les habitants en statues végétales, le roi en une créature amphibienne et la princesse en un cheval. Seul le héros, un jeune garde royal, échappe à la malédiction. Accompagné du roi transformé et de la princesse, il part à la poursuite de Dhoulmagus pour sauver le royaume.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Combat au tour par tour, JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["PS2","3DS"], 
+    statut: "En cours", 
+    soluce:"https://dragonquest-fan.com/dragonquest8/solution.php",
+    trailer:"https://www.youtube.com/embed/HUCZN0AHnmU?feature=oembed",
+    quetes:[
+     {titre:"Le Grelot de Baumren",
+     description:"Cette quête permet d'obtenir une monture terrestre, mais elle peut être exigeante en fonction du niveau des personnages.",
+     lienSoluce:"https://www.supersoluce.com/soluce/dragon-quest-viii-l-odyssee-du-roi-maudit/le-grelot-de-baumren"
+     },
+     {titre:"Ouverture du casino",
+     description:" Cette quête optionnelle doit être effectuée avant de vaincre le boss des Pics du Blizzard et peut nécessiter une préparation minutieuse.",
+     lienSoluce:"https://www.supersoluce.com/soluce/dragon-quest-viii-l-odyssee-du-roi-maudit/le-casino-de-baccarat"
+     }
+    ],
+    carte:""
+    },
+
+
+    {nom: "Dragon Quest VII", 
+    image: "https://s2.qwant.com/thumbr/474x701/e/d/08acb943449992068b799cfa8c9d6acced045d4b5ce24349768f7407cb5161/OIP.2n4NuQIuKv8uuN-RzYca1wHaK9.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.2n4NuQIuKv8uuN-RzYca1wHaK9%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Dragon Quest VII : La Quête des vestiges du monde suit l'histoire d'un jeune héros, fils d'un pêcheur, vivant dans le village isolé de Fishbel. Un jour, il rencontre le prince Killyan et Maribel, la fille du maire, qui lui font découvrir que le monde est bien plus vaste qu'il ne l'imaginait. Ensemble, ils partent à la recherche d'une carte cachée sur l'île de Fishbel. Une fois complétée, cette carte ouvre un passage vers le passé, où ils se retrouvent sur une île mystérieuse. Leur mission est de résoudre des mystères du passé pour permettre au présent de se compléter et de restaurer les continents disparus.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Combat au tour par tour, JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["Switch","Switch 2","PS5","Xbox Series S","Xbox Series X","PC","3DS","PlayStation","IOS","Android"], 
+    statut: "En cours", 
+    soluce:"https://dragonquest-fan.com/dragonquest7/solution.php",
+    trailer:"https://www.youtube.com/embed/sBwR-SeriWA?feature=oembed",
+    quetes:[
+     {titre:"Donjons",
+     description:"Certains donjons, comme ceux nécessitant des Fragments pour accéder à de nouvelles îles, peuvent être complexes et exigeants en termes de stratégie et de niveau de vos personnages.",
+     lienSoluce:""
+     }
+    ],
+    carte:"https://www.supersoluce.com/soluce/dragon-quest-vii-la-quete-des-vestiges-du-monde/continents-et-fragments"
+    },
+
+
+    {nom:"Dragon Quest VI", 
+    image: "https://s1.qwant.com/thumbr/474x237/9/8/6f74803d6647e23af34bbf1b1309e4a735954f882bbfa35156867bdd7ba3f6/OIP.PF07eFZWS23gdsFPpR9wWAHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.PF07eFZWS23gdsFPpR9wWAHaDt%3Fpid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Le jeu commence autour d'un feu de camp. Le héros est réveillé par Émilie, une mage puis ils sont rejoints par Olivier, le gros costaud. Ils montent sur le dos d'un dragon et partent vers le château de Meurtor, le roi des ténèbres. Leur but est de détruire ce dernier pour ramener la paix sur Terre. Mais Meurtor est très puissant, et les fera disparaître. Après cette confrontation, le héros se retrouve chez une petite fille, sa petite sœur nommée Mélodie, dans le Pic des Tisseurs...", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Combat au tour par tour, JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["DS","SNES","Android","IOS"], 
+    statut: "En cours", 
+    soluce:"http://www.dragonquest-fan.com/dragonquest6/solution.php",
+    trailer:"https://www.youtube.com/embed/auTeSVCmUS0?feature=oembed",
+    quetes:[
+     {titre:"Accès au royaume du ciel",
+     description:" Pour y parvenir, il faut récupérer les 4 reliques et vaincre un boss puissant avant de pouvoir accéder à Typhonia.",
+     lienSoluce:""
+     },
+    ],
+     carte:""
+    },
+
+
+    {nom:"Dragon Quest V", 
+    image: "https://s2.qwant.com/thumbr/474x443/f/4/ae8f3159ed76c0fa9dc6e45ac922e5abe05440e7162b118dd1a8f3d908c92f/OIP.Sh6No302R3NWBBG-6fkcRQHaG7.jpg?u=https%3A%2F%2Ftse4.explicit.bing.net%2Fth%2Fid%2FOIP.Sh6No302R3NWBBG-6fkcRQHaG7%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "L'histoire commence par la naissance du Héros, que le joueur peut nommer. Enfant, il voyage avec son père, Pankraz, et rencontre Bianca, une amie d'enfance. Après la mort tragique de Pankraz, tué par un ennemi mystérieux, le Héros et son ami Prince Harry sont réduits en esclavage. Dix ans plus tard, ils s'échappent et entament une quête pour découvrir les secrets du passé de Pankraz.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Combat au tour par tour, JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["SNES","PS2","DS","Android","IOS"], 
+    statut: "En cours", 
+    soluce:"https://dragonquest-fan.com/dragonquest5/solution.php",
+    trailer:"https://www.youtube.com/embed/-OdS4h0-vyg?feature=oembed",
+    quetes:[
+      {titre:"Chapitre 7 : Le Port-Lanterne",
+      description:"Vous devez affronter des ennemis puissants et gérer des stratégies de combat avancées. Les combats contre des boss comme Nimzo nécessitent une bonne préparation et des tactiques spécifiques.",
+      lienSoluce:"http://www.dragonquest-fan.com/dragonquest5/solution/7.php"
+      },
+     {titre:"Chapitre 11 : Huit ans plus tard",
+     description:"Vous devez affronter Erebos et ses sbires. Les combats contre Erebos et ses alliés sont parmi les plus difficiles du jeu, nécessitant une bonne stratégie et des compétences de haut niveau.",
+     lienSoluce:"http://www.dragonquest-fan.com/dragonquest5/solution/11.php"
+     }
+    ],
+    carte:""
+   },
+
+
+    {nom:"Dragon Quest IV", 
+    image: "https://s2.qwant.com/thumbr/474x508/6/1/368df34247c82380474f7dc856587d62dcaf90623a32e393b594f6ec99f2eb/OIP.h6uXzCdr3iRpW006m9bpsAHaH8.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.h6uXzCdr3iRpW006m9bpsAHaH8%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Dragon Quest IV raconte l'histoire d'un héros dont le village est détruit, cherchant vengeance, à travers des chapitres suivant divers personnages comme Ragnar, Alina, Borya et Kyril, dont les destins se rejoignent pour former les Élus destinés à combattre l'Empereur des Enfers, Estark ", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Combat au tour par tour, JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["NES","DS","PlayStation"], 
+    statut: "En cours", 
+    soluce:"https://dragonquest-fan.com/dragonquest4/solution.php",
+    trailer:"https://www.youtube.com/embed/L4rs51Kv6CE?feature=oembed",
+    quetes:[
+     {titre:"Combat contre Psaro",
+     description:" Combat en plusieurs phases, perd un bras puis une tête, utilise des sorts de feu ou glace, et peut invoquer des monstres.",
+     lienSoluce:"https://gamerzenith.com/guides/defeat-psaro-dq4/"
+     }
+    ],
+    carte:""
+    },
+
+
+    {nom:"Hollow Knight", 
+    image:"https://s1.qwant.com/thumbr/474x474/1/a/b108e8de3a419a1e445c7ee5fef9818cac72784e83affd040d60f8a459144c/OIP.yksrDyeoiGInEdKYFyreeQHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.yksrDyeoiGInEdKYFyreeQHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Le jeu suit la quête d'un chevalier insectoïde devant pénétrer dans les tréfonds du royaume d'Hallownest et y éradiquer l'entité maléfique qui y a été emprisonnée en des temps immémoriaux au sein du Hollow Knight éponyme. L'influence maligne de l'antagoniste se ressent à nouveau dans une infection qui ronge le royaume et contamine peu à peu la plupart des insectes autochtones. Il faudra faire preuve de stratégie, de réflexion ainsi que de beaucoup de ragequit pour arriver au bout de ce jeu.",
+    genre:"Metroidvania, 2D", 
+    sousGenre:"Jeu de plate-formes, Exploration, Enigmes", 
+    consoles:["PS4","PS5","PC","Switch","Xbox One"], 
+    statut: "En cours", 
+    soluce:"https://www.supersoluce.com/soluce/hollow-knight/soluce-hollow-knight",
+    trailer:"https://www.youtube.com/embed/VZm8T4PjewI?feature=oembed",
+    quetes:[
+     {titre:"Nightmare King Grimm",
+     description:" Ce combat est particulièrement exigeant en termes de réflexes et de précision."
+     },
+     {titre:"Uumuu",
+     description:"Bien que moins rapide, ce boss peut être difficile en raison de ses attaques imprévisibles.",
+     }
+    ],
+    carte:"https://www.ign.com/maps/hollow-knight"
+    },
+
+
+    {nom:"Final Fantasy 7: Remake", 
+    image: "https://s2.qwant.com/thumbr/474x266/d/0/134b8b0a052bf0eccc476bbdf5da19dfa83faecd481f8f5a5b14530231d462/OIP.t_odQ4dHXuoi1qQgf0NKnQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.t_odQ4dHXuoi1qQgf0NKnQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Un jeu où nous incarnons Cloud Strife, ancien SOLDAT, qui rejoint le groupe éco-terroriste Avalanche pour combattre la Shinra, une corporation exploitant la mako, le sang de la planète. À travers cette aventure, plusieurs personnages iconiques comme Barret, Aerith ou encore Sephiroth, vont vous donner des émotions, passant de l'extase à la tristesse. Le jeu se déroule principalement dans la ville moderne de Midgar ", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["PS4","PS5","PC","Switch 2","Xbox Series X","Xbox Series S"], 
+    statut: "En cours",
+    soluce:"https://www.supersoluce.com/soluce/final-fantasy-vii-remake/soluce-final-fantasy-vii-remake",
+    trailer:"https://www.youtube.com/embed/sz9QWTcbXYE?feature=oembed",
+    quetes:[
+      {titre:"Simulateur VR dans la tour de la Shinra",
+      description:"Ces missions demandent une maîtrise parfaite des mécaniques de combat et des compétences des personnages. Elles sont conçues pour tester les joueurs les plus expérimentés.",
+      lienSoluce:"https://www.jeuxvideo.com/wikis-soluce-astuces/1212144/simulateur-de-combat-shinra.htm"
+      }
+    ],
+    carte:""
+    },
+
+
+    {nom:"Super Mario Odyssey", 
+    image: "https://s2.qwant.com/thumbr/474x266/6/b/33988d3cda6d79e872a6bc12ae55905e5306f16d808cd9b0b168119dffef08/OIP.b8RTKY6bxn5BObmd3iQdRgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.b8RTKY6bxn5BObmd3iQdRgHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "L’histoire débute avec Bowser kidnappant la Princesse Peach afin de l’épouser et devenir le roi incontesté du Royaume Champignon. Cependant, cette fois, Bowser a des plans encore plus ambitieux. Il projette de kidnapper des princesses de différents royaumes à travers le monde pour organiser un mariage géant. Pour y parvenir, il vole le chapeau volant magique nommé Tiara et capture la sœur de Tiara, Cappy, pour en faire la couronne de Peach.Cappy, déterminé à sauver sa sœur et stopper les plans diaboliques de Bowser, s’allie avec Mario. Mario et Cappy entreprennent un voyage à travers divers royaumes, chacun représentant un pays du monde réel avec son propre thème unique. Les deux compagnons utilisent le chapeau de Mario, nommé également Cappy, qui a des capacités magiques spéciales.Le principal objectif du jeu est de collecter des « Lunes de Puissance » dispersées à travers les différents royaumes. Ces lunes sont nécessaires pour alimenter l’Odyssey, le vaisseau spatial de Mario, afin de poursuivre Bowser à travers le monde. Chaque royaume offre des défis uniques, des énigmes et des ennemis à surmonter pour obtenir les Lunes de Puissance nécessaires.Au fur et à mesure que l’histoire progresse, Mario découvre des indices sur la localisation de Bowser, et chaque royaume visité est riche en détails et en surprises. Le jeu introduit également une mécanique de possession, permettant à Mario de prendre le contrôle de divers objets et ennemis en lançant Cappy sur eux, ce qui ajoute une dimension stratégique et de nouvelles possibilités de gameplay.La quête de Mario le conduit à travers des environnements variés, allant de la ville métropolitaine de New Donk City à des déserts, des jungles, des océans et bien d’autres lieux exotiques. Le jeu culmine avec une confrontation épique entre Mario, Bowser et Cappy dans le but de sauver la Princesse Peach et ses compagnons.", 
+    genre:"Action-Aventure", 
+    sousGenre:"Jeu de plate-formes, Exploration, Enigmes", 
+    consoles:["Switch"], 
+    statut: "Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/super-mario-odyssey/soluce-super-mario-odyssey",
+    trailer:"https://www.youtube.com/embed/wGQHQc_3ycE?feature=oembed",
+    quetes:[
+     {titre:"Exploration exhaustive",
+     description:"Trouver toutes les lunes et explorer chaque recoin des royaumes peut être un défi en soi, surtout dans les zones secrètes ou les niveaux cachés.",
+     }
+    ],
+     carte:"https://www.ign.com/maps/super-mario-odyssey"
+    },
+
+
+    {nom:"Luigi's Mansion 3", 
+    image: "https://s1.qwant.com/thumbr/474x266/8/0/daefa78a08b69241203a35c22f6a9db04065b22ec7c61c19e8b251e397e28f/OIP.UqrAkgTfsZuwlGQb2b-TZgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.UqrAkgTfsZuwlGQb2b-TZgHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Luigi et ses amis, Mario, la princesse Peach et les Toads, reçoivent une invitation mystérieuse pour un séjour gratuit dans un hôtel de luxe appelé The Last Resort. À leur arrivée, ils sont accueillis par Ambre Brusquade, la propriétaire de l'hôtel. Cependant, cette invitation se révèle être un piège orchestré par le Roi Boo, qui cherche à se venger de Luigi et ses amis.Pendant la nuit, Luigi se réveille et découvre que ses amis ont été transformés en peintures et que l'hôtel est infesté de fantômes. Avec l'aide du professeur Karl Tastroff et de son nouveau Poltergust G-00, Luigi doit explorer les différents étages de l'hôtel pour sauver ses amis et échapper à Roi Boo.Le jeu se déroule dans un hôtel luxueux et hanté, avec des étages thématiques variés, allant d'une suite d'hôtel à un musée d'histoire naturelle, en passant par un plateau de tournage et une discothèque. Luigi doit résoudre des énigmes, combattre des fantômes et collecter des objets pour progresser dans l'aventure.Parmi les nouveautés de cet opus, on trouve Gluigi, un double vert de Luigi qui peut se faufiler dans des endroits inaccessibles. Le jeu propose également un mode multijoueur en coopération locale et des mini-jeux en ligne ou en local.Luigi's Mansion 3 est un jeu d'action-aventure qui combine exploration, résolution d'énigmes et combats contre des fantômes, le tout dans un univers coloré et humoristique.", genre:"Action-Aventure", 
+    sousGenre:"Enigmes, Exploration", 
+    consoles:["Switch"], 
+    statut:"Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/luigi-s-mansion-3/soluce-luigi-s-mansion-3",
+    trailer:"https://www.youtube.com/embed/OYhTRG8k3-4?feature=oembed",
+    quetes:[
+     {titre:"Les boss",
+     description:" Les combats contre les boss nécessitent une bonne analyse des mouvements et l'utilisation stratégique des compétences de Luigi et de Gluigi."
+     },
+     {titre:"Les gemmes",
+     description:"Les 102 gemmes sont réparties sur 17 étages, avec 5 gemmes par étage (grise, rouge, bleue, verte, violette et jaune). Certaines sont très bien cachées et nécessitent des pouvoirs spécifiques de l'aspirateur pour être obtenues.",
+     lienSoluce:"https://www.supersoluce.com/soluce/luigi-s-mansion-3/gemmes"
+     }
+    ],
+     carte:"https://www.ign.com/maps/luigis-mansion-3"
+    },
+
+
+    {nom:"Mario et Luigi: Voyage au centre de Bowser/L'épopée de Bowser Jr", 
+    image: "https://s1.qwant.com/thumbr/474x237/0/1/79a6806b76995cdb7078905f3c69dab5ae82436d3d84e28a34e9e95d4bdf40/OIP.zyCoBwN0ibPTEEEBwzvt8QHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.zyCoBwN0ibPTEEEBwzvt8QHaDt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Un mystérieux virus, la Rouliboulite, attaque les Toads du royaume Champignon, les transformant en géants. La Princesse Peach convoque une réunion d'urgence pour trouver une solution. Cependant, Bowser, furieux de ne pas avoir été invité, interrompt la réunion. Il rencontre alors Gracowitz, un ancien antagoniste, qui lui offre un champignon censé le rendre invincible. Après l'avoir avalé, Bowser commence à tout engloutir sur son passage, y compris Mario, Luigi et la Princesse Peach. Sans le vouloir, Mario, Luigi et Bowser se retrouvent alliés pour combattre Gracowitz, qui cherche à prendre le contrôle du royaume Champignon. Les plombiers et Bowser doivent collaborer pour vaincre cette nouvelle menace.Dans L'épopée de Bowser Jr, Bowser Jr.,qui est resté seul au château de Bowser, est approché par des vendeurs itinérants de la société VSB. Ils présentent un complément alimentaire capable de guérir la rouliboulite. Après avoir vu l'effet positif sur un Goomba, Bowser Jr. décide de partir à la recherche des ingrédients nécessaires pour fabriquer ce remède en masse. Accompagné des Terreurs de Bowser, ses lieutenants, il se lance dans une quête pour soigner les Goombas atteints de la rouliboulite.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Jeu de plate-formes, Stratégie, Exploration, Combat au tour par tour", 
+    consoles:["DS","3DS"], 
+    statut: "Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/mario-luigi-voyage-au-centre-de-bowser-l-epopee-de-bowser-jr/soluce-mario-luigi-voyage-au",
+    trailer:"https://www.youtube.com/embed/mqNWF3lW8lw?feature=oembed",
+    quetes:[
+     {titre:"Combats de boss",
+     description:"Les affrontements contre les boss, comme Grrracowitz, sont souvent considérés comme les moments les plus difficiles du jeu."
+     }
+    ],
+     carte:""
+    },
+
+
+    {nom:"Super Mario 3D Land", 
+    image: "https://s2.qwant.com/thumbr/474x557/d/a/71d967f31575c1f3427159743e2d0fd77a32fbe74fe0a3c9c4dc7f110c36d7/OIP.2y8RhOTMDKSOIq3vOEyW0gHaIt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.2y8RhOTMDKSOIq3vOEyW0gHaIt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "L'histoire de Super Mario 3D Land commence par une tempête qui dépouille un arbre de toutes ses feuilles dans le parc du château de la Princesse Peach. Ces feuilles, révélées être des Super feuilles, sont dispersées à travers le Royaume Champignon, conférant des queues de tanuki à tous les êtres vivants qu'elles touchent. Mario traverse huit mondes différents, affrontant divers ennemis et boss, pour finalement battre Bowser et libérer la Princesse Peach. Après cette victoire, une courte vidéo avec une lettre flottante apparaît, révélant que Luigi a également été enlevé par les soldats de Bowser.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Jeu de plate-formes, Exploration", 
+    consoles:["3DS"], 
+    statut: "Terminé", 
+    soluce:"https://www.jeuxvideo.com/wikis-soluce-astuces/wiki-de-super-mario-3d-land/350162",
+    trailer:"https://www.youtube.com/embed/QlniEA5o2Kw?feature=oembed",
+    quetes:[], //aucune quête
+    carte:""
+    },
+
+
+    {nom:"Pokemon Soleil/Lune", 
+    image:"https://s2.qwant.com/thumbr/474x266/d/3/c11d1dce1a463c193c6429075bd05a17a8483b4faf3fcd2c3cb9b4625b54b6/OIP.NU2UoqLsCqV4IpDNG-iEEAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.NU2UoqLsCqV4IpDNG-iEEAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Pokémon Soleil et Lune se déroulent dans la région paradisiaque d'Alola, inspirée de l'archipel d'Hawaï. Cette région est composée de quatre îles naturelles et d'une île artificielle, le paradis Aether. Chaque île naturelle est protégée par un Pokémon gardien vénéré par les habitants. L'histoire commence par le déménagement du personnage principal de la région de Kanto vers Alola. Il est poussé à réaliser le « Tour des Îles », une épreuve équivalente à la collecte des badges dans les précédents jeux de la série. Ce tour est supervisé par des capitaines d'épreuves, remplaçant les champions d'arènes des jeux précédents.", genre:"RPG, Action-Aventure", 
+    sousGenre:"Exploration, Stratégie, Combat au tour par tour", 
+    consoles:["3DS","2DS"], 
+    statut: "Terminé", 
+    soluce:"https://www.pokebip.com/page__jeuxvideo__pokemon_soleil_lune_sun_moon__soluce__index.html",
+    trailer:"https://www.youtube.com/embed/jpf5EGTfOWk?feature=oembed",
+    quetes:[
+     {titre:"Complétion du Pokédex",
+     description:"Comme dans tous les jeux Pokemon, le Pokédex est long à remplir, dans ce jeu, les pokémons sont classés en fonction des îles, certains sont plus rares et d'autres peuvent être trouvé facilement. Cela nous permet d'obtenir le charme Chroma",
+     },
+     {titre:"Chasse aux shiny ou Shiny Hunt",
+     description:"Ce n'est pas une quête à proprement parler, c'est plutôt un défi qui peut demander beaucoup d'heure de farming, ce qui cette activité sympa, c'est d'obtenir le shiny qu'on recherche ou pas."
+     }
+    ],
+    carte:""
+    },
+
+
+    {nom:"Pokemon Ecarlate/Violet", 
+    image: "https://s2.qwant.com/thumbr/474x408/d/6/2e20c10803ba321deebfb27d34b047342249c53ca28c4b2cb28a48fd420905/OIP.GmsZXshMbzWFM5uilQ08lQHaGY.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.GmsZXshMbzWFM5uilQ08lQHaGY%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Pokémon Écarlate et Violet se déroulent dans la région de Paldea, inspirée de l'Espagne et du Portugal. Le joueur incarne un élève de l'Académie Orange (Écarlate) ou Raisin (Violet) qui participe au programme de « Chasse au Trésor ». Ce programme permet d'explorer librement la région pour accomplir des objectifs personnels. L'histoire suit le joueur depuis son arrivée à Cuchalaga, un village du sud de Paldea. Il rencontre divers personnages comme Menzi, une déléguée de classe et fan de combats Pokémon, ou Pania, une élève discrète. La région est divisée en quatre zones (Sud, Ouest, Est, Nord) et abrite la mystérieuse Zone Zéro, interdite d'accès.Les combats introduisent une nouvelle mécanique : la Téracristallisation, permettant aux Pokémon de changer de type pendant les affrontements. Le jeu propose également un monde ouvert avec des biomes variés et des quêtes secondaires.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Exploration, Stratégie, Combat au tour par tour", 
+    consoles:["Switch"], 
+    statut: "Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/pokemon-ecarlate-violet/soluce-pokemon-ecarlate-violet",
+    trailer:"https://www.youtube.com/embed/Px9zB7QM9os?feature=oembed",
+    quetes:[], //aucune quête
+    carte:"https://www.ign.com/maps/pokemon-scarlet-violet"
+    },
+
+
+    {nom:"Pokemon Legends: Arceus", 
+    image: "https://s1.qwant.com/thumbr/474x474/8/2/29074abd565762828cd47de7526b35ef56644f63ce67a44ab06f66a8d02f00/OIP.I487EFvYMAO5crp0VBDhDgHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.I487EFvYMAO5crp0VBDhDgHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: " Pokémon Legends: Arceus se déroule dans la région de Hisui, une ancienne version de Sinnoh, plusieurs années avant les événements de Pokémon Diamant, Perle et Platine. La région est caractérisée par une nature sauvage, avec une relation encore fragile entre les humains et les Pokémon. Le joueur incarne un chercheur du Groupe Galaxie, envoyé par Arceus pour créer le premier Pokédex de la région. Après avoir été recueilli par le Professeur Lavande, le joueur rejoint le Groupe Galaxie et commence son exploration de Hisui. L'objectif principal est de capturer et étudier les différentes espèces de Pokémon pour compléter le Pokédex.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Exploration, Stratégie, Combat au tour par tour", 
+    consoles:["Switch"], 
+    statut: "Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/legendes-pokemon-arceus/soluce-legendes-pokemon-arceus",
+    trailer:"https://www.youtube.com/embed/P_HAXyS5Ugw?feature=oembed",
+    quetes:[
+     {titre:"Défis de la Voie Solitaire",
+     description:"Les défis de la Voie Solitaire sont parmi les plus difficiles du jeu. Ils consistent à affronter des Pokémon de haut niveau avec des capacités spécifiques",
+     lienSoluce:"https://www.pokebip.com/page/jeuxvideo/legendes-pokemon-arceus/voie-solitaire"
+     },
+     {titre:"Complétion du Pokédex à 100%",
+     description:"Dans cet opus, chaque Pokémons ont des quêtes différentes, comme utilisé un certain style, ou capturé un certain nombre de ce même Pokémon "
+     }
+    ],
+     carte:"https://www.ign.com/maps/pokemon-legends-arceus"
+    },
+
+
+    {nom:"Pokemon Ultra Soleil/Ultra Lune", 
+    image: "https://s2.qwant.com/thumbr/474x266/e/d/c2998dca24cafa2c8b9cf3fdd4e21e9ec698edab2060018ed20ab62f52bbfc/OIP.PEsBvhOE0fQ_PgUXp2ajUQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.PEsBvhOE0fQ_PgUXp2ajUQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Le joueur incarne un(e) dresseur(euse) de 11 ans qui vient d'emménager dans la région d'Alola, un archipel paradisiaque inspiré d'Hawaï. Accompagné de son Pokémon de départ (Brindibou, Flamiaou ou Otaquin), de son rival Tili et de Lilie, le joueur doit accomplir le Tour des Îles, une série d'épreuves remplaçant les combats contre les Dresseurs pour obtenir des Badges. L'histoire commence avec l'arrivée du joueur à Alola, où il rencontre Lilie et son Cosmog, surnommé Doudou. Rapidement, le joueur est confronté à la Team Skull, une organisation criminelle dirigée par Guzma. La Fondation Æther, dirigée par Elsa-Mina, joue également un rôle clé en cherchant à capturer Cosmog pour utiliser ses pouvoirs et ouvrir des Ultra-Brèches, des portails vers d'autres dimensions.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Exploration, Stratégie, Combat au tour par tour", 
+    consoles:["3DS","2DS"], 
+    statut: "Terminé", 
+    soluce:"https://www.pokebip.com/page__jeuxvideo__pokemon_ultra_soleil_ultra_lune__soluce__index.html",
+    trailer:"https://www.youtube.com/embed/rSAP9Epxg-s?feature=oembed",
+    quetes:[
+     {titre:"Combat contre Ultra-Necrozma",
+     description:"Le combat peut être compliqué si vos Pokémons ne sont pas au minimum level 40. Ultra-Necrozma possède une capacité Z qui peut vous one shot, utiliser donc bien vos soins"
+     }
+    ],
+     carte:""
+    },
+
+
+    {nom:"Pokemon Diamant Etincelant/Perle Scintillante", 
+    image: "https://s2.qwant.com/thumbr/400x0/c/f/564e2182a76956f7f2e8c1b218d55f4ad6104b02a43f5b7c61b840b14507c9/pokemon-diamant.jpg?u=https%3A%2F%2Fstatic.actugaming.net%2Fmedia%2F2021%2F11%2Fpokemon-diamant.jpg&q=0&b=1&p=0&a=0", 
+    description: "Votre mission est de devenir un maître Pokémon en collectant les huit badges de la région de Sinnoh. Vous devrez affronter la Team Galaxie, une organisation malveillante dirigée par Helios. Leur objectif est de s'approprier le Pokémon légendaire Dialga, incarnation du temps, ou Palkia, incarnation de l'espace; pour créer un nouvel univers.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Exploration, Stratégie, Combat au tour par tour", 
+    consoles:["Switch"], 
+    statut: "Terminé", 
+    soluce:"https://www.pokebip.com/page/jeuxvideo/pokemon-diamant-etincelant-perle-scintillante/soluce/partie-01",
+    trailer:"https://www.youtube.com/embed/HbDP99V0BDU?feature=oembed",
+    quetes:[
+     {titre:"Obtention des rubans",
+      description:"    Les rubans hebdomadaires nécessitent des conditions spécifiques et des combats difficiles pour être obtenus.Par exemple, le Ruban Alerte, Ruban Choc, etc., sont liés à des combats spécifiques chaque jour de la semaine."
+     }
+    ], 
+    carte:"https://www.supersoluce.com/soluce/pokemon-diamant-etincelant-perle-scintillante/routes"
+   },
+    
+    
+    {nom:"Pokémon X/Y", 
+    image: "https://s1.qwant.com/thumbr/474x266/1/c/2e1f93c1e84a7795c0d6033eef4efa4f470c6ea737a41a06800148a00e2c81/OIP.vTkVY4wD7q_pje4-ewLiYAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.vTkVY4wD7q_pje4-ewLiYAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Le joueur incarne un jeune dresseur dans la région de Kalos, inspirée de la France. Son objectif est de capturer, entraîner et combattre des Pokémon pour obtenir le titre de Maître Pokémon. Pour cela, il doit : Collecter huit badges en battant les champions des arènes; Affronter la Ligue Pokémon après avoir obtenu tous les badges; Combattre la Team Flare, une organisation malveillante. Le jeu introduit plusieurs nouveautés, notamment les méga-évolutions, le type Fée et de nouveaux Pokémon légendaires comme Xerneas et Yveltal. La région de Kalos est divisée en plusieurs zones géographiques, chacune habitée par différentes espèces de Pokémon. Le joueur peut choisir entre un protagoniste masculin (Kalem) ou féminin (Serena) et commence son aventure avec un Pokémon de départ parmi Marisson (type Plante), Feunnec (type Feu) ou Grenousse (type Eau).", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Exploration, Stratégie, Combat au tour par tour", 
+    consoles:["2DS","3DS"], 
+    statut: "En cours", 
+    soluce:"https://www.pokebip.com/page__jeuxvideo__pokemon-x-y__soluce__index.html",
+    trailer:"https://www.youtube.com/embed/3NMWdUBA8e4?feature=oembed",
+    quetes:[
+     {titre:"Enquêtes de Beladonis",
+      description:"Ces enquêtes, sont considérées comme des quêtes annexes post-jeu. Elles peuvent être difficiles en raison de leur complexité narrative et des défis qu'elles présentent.",
+      lienSoluce:"https://www.pokebip.com/page/jeuxvideo/pokemon-x-y/enquetes"
+     }
+    ],
+     carte:"https://www.pokemontrash.com/pokemon-x-y/carte-du-monde.php"
+    },
+
+
+    {nom:"Pokémon Epée/Bouclier",
+    image:"https://s2.qwant.com/thumbr/474x266/e/4/720d5017d72a0be489824631f87184bd5a6262d06d67aadbf741c3ab3947b6/OIP.YSiWdCs5zz6VCzZIkqFv2QHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.YSiWdCs5zz6VCzZIkqFv2QHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0",
+    description:"Les jeux se déroulent dans la région de Galar, inspirée par le Royaume-Uni. Le joueur incarne un jeune dresseur qui commence son aventure en choisissant un Pokémon de départ parmi trois options : Larméleon(type eau), Flambino(type feu) et Ouistempo(type plante). 81 nouveaux Pokémon sont introduits, incluant des formes régionales appelées Formes de Galar.",
+    genre:"RPG, Action-Aventure",
+    sousGenre:"Exploration, Stratégie, Combat au tour par tour",
+    consoles:["Switch"],
+    statut:"Terminé",
+    soluce:"https://www.supersoluce.com/soluce/pokemon-epee-bouclier/soluce-pokemon-epee-bouclier",
+    trailer:"https://www.youtube.com/embed/WQXYjuLGuXU?feature=oembed",
+    quetes:[
+     {titre:"Raids Dynamax",
+     description:"Les raids Dynamax, en particulier ceux de haut niveau, nécessitent une stratégie bien pensée et une équipe bien préparée."
+     }
+    ],
+    carte:"https://www.pokebip.com/page/jeuxvideo/pokemon-epee-bouclier/guide-des-lieux/accueil"
+    },
+    
+    
+
+    {nom:"The Legend of Zelda: Minish Cap", 
+    image: "https://s1.qwant.com/thumbr/474x237/0/b/44871eb484696072b842c4f2ca71b614e4c2cb9b72648224e9efa18aac3e01/OIP.JxvR7LReBOhUaKVGNLi2WwHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.JxvR7LReBOhUaKVGNLi2WwHaDt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "The Legend of Zelda: The Minish Cap se déroule dans le royaume d'Hyrule, plusieurs centaines d'années après la première apparition des Minish. Link, le petit-fils du forgeron royal, participe avec son amie d'enfance, la princesse Zelda, au festival Minish, une célébration annuelle honorant le peuple microscopique qui a sauvé Hyrule d'une invasion maléfique.Lors du tournoi organisé pendant le festival, Vaati, un mage mystérieux, remporte la compétition. Il brise ensuite l'épée Minish, qui contenait les monstres maléfiques, et transforme Zelda en pierre avec une malédiction. Link, assommé par Vaati, se réveille et apprend qu'il doit restaurer l'épée Minish pour sauver Zelda. Pour ce faire, il doit collecter les quatre éléments dispersés à travers le royaume et reforger l'épée des Quatre, une version plus puissante de l'épée Minish.Au cours de son aventure, Link est accompagné par Exelo, un chapeau parlant qui est en réalité un sage Minish transformé par Vaati. Exelo lui confère le pouvoir de rapetisser et de grandir à loisir, permettant à Link d'explorer des zones inaccessibles et de résoudre des énigmes. Link découvre également que la Force que recherche Vaati n'est autre que la princesse Zelda, la Force se transmettant de génération en génération au sein de la famille royale d'Hyrule. Après avoir collecté les quatre éléments et reforgé l'épée des Quatre, Link affronte Vaati, qui a réussi à se transformer en un démon sphérique, ailé et cyclope. Grâce à l'épée des Quatre, Link parvient à vaincre Vaati et à sceller le sorcier à l'intérieur de l'épée. La malédiction pesant sur Zelda est levée, et le royaume d'Hyrule est sauvé. Exelo offre à Zelda le chapeau des vœux, précédemment volé par Vaati, et un chapeau similaire à Link, ressemblant fortement à son bonnet vert typique. Les Minish retournent alors dans leur monde miniature, tandis qu'Hyrule continue de les honorer, festival après festival.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Jeu de plate-formes, Exploration, Enigmes", 
+    consoles:["Game Boy Advance","Wii","Wii U","Switch","3DS"], 
+    statut: "En cours", 
+    soluce:"https://www.puissance-zelda.com/10-The_Minish_Cap/solution",
+    trailer:"https://www.youtube.com/embed/z4aOUpPVWiU?feature=oembed",
+    quetes:[
+     {titre:"Palais du Vent (Couple de Gyorgs)",
+     description:"Description : Ce combat contre les Gyorgs est considéré comme le plus difficile du jeu. Les Gyorgs, des créatures ressemblant à des raies manta, utilisent des attaques variées comme des boules d'énergie et des bébés Gyorgs pour compliquer le combat. La stratégie implique de créer des clones de Link et de viser les yeux des Gyorgs.",
+     lienSoluce:"https://www.puissance-zelda.com/10-The_Minish_Cap/solution/138-Le_Palais_du_Vent"
+     },
+     {titre:"Château des Ténèbres (Vaati)",
+     description:"Le combat contre Vaati se déroule en trois phases. La première phase implique de détruire des yeux tournoient autour de Vaati. La deuxième phase est contre l'Avatar de Vaati, nécessitant l'utilisation de l'Épée de Quatre et des clones de Link. La troisième phase est contre Vaati, le Grand Avatar, où il faut attaquer des cellules spécifiques dans ses bras.",
+     lienSoluce:"https://www.puissance-zelda.com/10-The_Minish_Cap/solution/139-Le_Chateau_des_Tenebres"
+     }
+    ],
+    carte:"https://www.palaiszelda.com/theminishcap/plans.php"
+    },
+
+
+    {nom:"The Legend of Zelda: Link's Awakening DX", 
+    image: "https://s2.qwant.com/thumbr/474x266/c/f/3697c57fd37d767320d1c93a3c89c7e6e273f05a84333b2240f878813d56ba/OIP.Pn7sjhTZ_nRCw5eH8domMQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.Pn7sjhTZ_nRCw5eH8domMQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Link, après avoir quitté Hyrule, est pris dans une tempête en mer. Son bateau est détruit, et il s'échoue sur l'île de Cocolint, une terre isolée et mystérieuse. Sur cette île, il découvre que le Poisson-rêve, un être endormi, est responsable de la création de ce monde onirique. Pour quitter l'île, Link doit réveiller le Poisson-rêve en collectant les huit instruments de musique des sirènes disséminés dans divers donjons.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Jeu de plate-formes, Exploration, Enigmes", 
+    consoles:["Game Boy Color","3DS"], 
+    statut: "En cours", 
+    soluce: "https://www.supersoluce.com/soluce/legend-zelda-link-s-awakening-dx/soluce-zelda-link-s-awakening",
+    trailer:"https://www.youtube.com/embed/r57To1LtC1M?feature=oembed",
+    quetes:[
+     {titre:"Collection des coquillages",
+     description:"Il faut en collecter 20 pour obtenir l'épée de niveau 2, mais certains sont bien cachés.",
+     lienSoluce:"https://www.supersoluce.com/soluce/legend-zelda-link-s-awakening-dx/22-les-coquillages-et-l-epee-n2"
+     }
+    ],
+    carte:"https://www.ign.com/maps/the-legend-of-zelda-links-awakening-switch"
+    },
+    
+    
+    {nom:"The Legend of Zelda: Wind Waker", 
+    image: "https://s1.qwant.com/thumbr/474x474/a/0/dd9022ecd4dc71ffa2d677803092bed044bb4f53530b8cbd83608d5db1506f/OIP.zl1YCb7bIKaJnH1kPe0I-AHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.zl1YCb7bIKaJnH1kPe0I-AHaHa%3Fpid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "L'histoire fait suite aux événements d'Ocarina of Time. Toutes les figures ici présentées sont donc des incarnations antérieures, différentes de celles d'Ocarina of Time. On raconte que jadis, dans une cité prospère et verdoyante, se produisit un drame : l'arrivée d'un être maléfique, Ganon, qui plongea le monde dans les ténèbres. Le Héros du Temps put vaincre ce démon et ramena la paix ; une statue fut érigée en son honneur. Après sa victoire, l'être maléfique resurgit, mais le héros du Temps ne reparut pas, malgré les prières des habitants. Le roi d'Hyrule remit donc le sort de son royaume aux mains des dieux, qui plongèrent le royaume sous les eaux. Un sceau fut également placé ; ce dernier arrêta le temps et fit disparaître la lumière de ce monde, maintenant dénaturé. Les habitants furent sauvés à temps, et rejoignirent le sommet des montagnes, maintenant devenus des îles, tandis que le roi préféra rester dans son royaume en attendant que quelqu'un vînt arranger la situation. Ganondorf et son armée furent eux aussi scellés sous l'eau. Des siècles passèrent, et les habitants maintenant installés sur les îles, oublièrent tout du passé. Aujourd'hui, l'ancien royaume d'Hyrule laisse place à un vaste océan sur lequel se trouve l’île de l'Aurore, où vit Link, qui vient d'atteindre ses 12 ans. C'est un jour important et il doit revêtir une tunique verte en l'honneur du Héros du Temps.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Enigmes, Exploration", 
+    consoles:["Switch","Wii U","GameCube"], 
+    statut: "En cours", 
+    soluce:"https://www.puissance-zelda.com/9-The_Wind_Waker/solution",
+    trailer:"https://www.youtube.com/embed/BP42wusaHJI?feature=oembed",
+    quetes:[
+     {titre:"Quête de l'esprit de l'arbre Korok",
+     description:"Arroser 8 arbres fanés sur différentes îles en moins de 20 minutes.",
+     lienSoluce:"https://www.puissance-zelda.com/9-The_Wind_Waker/astuces/101-Les_arbres_des_Korogus"
+     },
+     {titre:"Quête du labyrinthe sauvage",
+     description:"Terminer les 50 étages du labyrinthe.",
+     lienSoluce:""
+     }
+    ],
+    carte:"https://www.ign.com/maps/the-legend-of-zelda-wind-waker"
+   },
+    
+    
+    {nom:"The Legend Of Zelda: Majora's Mask", 
+    image: "https://s2.qwant.com/thumbr/474x691/c/e/983b7c5720d37a189b7854da9461f4d43350b6fd26300c8921a37928f70897/OIP.wdlHKrXHdQCaCGoEKxbRgAHaKz.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.wdlHKrXHdQCaCGoEKxbRgAHaKz%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", description:"Après avoir vaincu Ganondorf, Link part dans une quête secrète pour retrouver un ancien ami (sûrement Navi) et son périple l'amène à croiser un Skull Kid au fin fond des bois Perdus. Ce dernier lui vole sa jument, Épona, ainsi que l'ocarina du Temps, avant de s'enfuir. En partant à sa poursuite, notre héros tombe dans un monde parallèle à Hyrule : Termina, et il fait la connaissance de Taya, fée de compagnie de Skull Kid, qui a été séparée de son frère Tael et qui souhaite le retrouver, en s'alliant d'abord temporairement à Link.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Enigmes, Exploration", 
+    consoles:["Nintendo 64","GameCube","Wii","Wii U","3DS","Switch"], 
+    statut: "En cours", 
+    soluce:"https://www.puissance-zelda.com/6-Majoras_Mask/solution",
+    trailer:"https://www.youtube.com/embed/Hj6cXziHpjQ?feature=oembed",
+    quetes:[
+     {titre:"Les Masques",
+     description:"Obtenir et utiliser les masques de manière optimale pour progresser dans les donjons et les quêtes secondaires est un défi en soi.",
+    lienSoluce:"https://www.puissance-zelda.com/6-Majoras_Mask/solution/207-Masques"
+     },
+     {titre:"Le Temple du Pic des Neiges",
+     description:"Ce donjon exige une gestion minutieuse du temps et l'utilisation stratégique du masque Goron pour vaincre le boss Goht.",
+     lienSoluce:"https://www.supersoluce.com/soluce/legend-zelda-majora-s-mask-3d/le-temple-du-pic-des-neiges"
+     }
+    ],
+    carte:"https://www.ign.com/wikis/the-legend-of-zelda-majoras-mask"
+   },
+    
+    
+    {nom:"The Legend of Zelda: Twilight Princess", 
+    image: "https://s2.qwant.com/thumbr/474x474/5/e/9ad53ad8526ffcb998b5f78bd2c9cf965f4441ed16fa2dcc92145ba0dee805/OIP.Amj5sdKV9q3JXrSOdI7qIQHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.Amj5sdKV9q3JXrSOdI7qIQHaHa%3Fpid%3DApi&q=0&b=1&p=0&a=0", 
+    description: " Le jeu se déroule un siècle après les événements d'Ocarina of Time et Majora's Mask. La princesse Zelda, avertie par le héros du Temps, emprisonne Ganondorf pour trahison. Peu avant les événements du jeu, Ganondorf est condamné à mort, mais il parvient à s'échapper et à invoquer le Crépuscule, un royaume d'ombres qui menace Hyrule. Link, un jeune fermier de 17 ans vivant dans le village de Toal, se retrouve entraîné dans cette aventure après que des Bulblins aient kidnappé ses amis. En se rendant dans la forêt de Firone, il est capturé par des créatures des ombres et transformé en loup grâce au pouvoir de la Triforce du Courage. Il est ensuite emprisonné dans le château d'Hyrule, où il rencontre Midona, une créature du Crépuscule qui l'aide à s'échapper.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Enigmes, Exploration", 
+    consoles:["GameCube","Wii","Wii U"], 
+    statut: "En cours", 
+    soluce:"https://www.puissance-zelda.com/12-Twilight_Princess/solution",
+    trailer:"https://www.youtube.com/embed/CPmR2kAvrqo?feature=oembed",
+    quetes:[
+     {titre:"Chasse aux âmes de spectres",
+     description:"Link doit, sous sa forme de loup, retrouver et éliminer 60 spectres dispersés dans Hyrule, fragments de l'âme de Giovanni, un homme maudit pour son avidité. Ces spectres n'apparaissent que la nuit, sauf dans les donjons.",
+     lienSoluce:"https://www.puissance-zelda.com/12-Twilight_Princess/solution/499-Ames-de-Spectre"
+     }
+    ],
+    carte:"https://www.ign.com/wikis/the-legend-of-zelda-twilight-princess/Walkthrough"
+   },
+    
+    
+    {nom:"The Legend of Zelda: Ocarina of Time 3D", 
+    image: "https://s2.qwant.com/thumbr/474x474/f/c/cb8364e4a29f34764a1cf06251b7414305edfe579527c12d4eb67d8dedfcef/OIP.T3Z9qq60-PhOj6LCR6Z2LQHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.T3Z9qq60-PhOj6LCR6Z2LQHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: " Le jeu commence avec Link, un jeune Kokiri, qui est envoyé par le Grand Arbre Mojo pour récupérer trois pierres spirituelles et empêcher Ganondorf d'obtenir la Triforce. Link rencontre la princesse Zelda, qui lui révèle les véritables intentions de Ganondorf. Après avoir récupéré les pierres spirituelles, Link se rend au Temple du Temps et retire l'Épée de Légende, ce qui le fait voyager sept ans dans le futur. Dans le futur, Link découvre qu'Hyrule est sous le règne tyrannique de Ganondorf. Il doit maintenant réveiller les sept sages pour sceller Ganondorf et sauver Hyrule. Link explore différents temples, affronte des boss et utilise diverses armes et objets pour progresser. Il est aidé par la princesse Zelda, qui se déguise en Sheik pour le guider.", 
+    genre:"RPG, Action-Aventure", 
+    sousGenre:"Enigmes, Exploration", 
+    consoles:["3DS","Switch","GameCube","Nintendo 64"], 
+    statut: "Terminé", 
+    soluce:"https://www.jeuxvideo.com/wikis-soluce-astuces/347381/wiki-de-the-legend-of-zelda-ocarina-of-time.htm",
+    trailer:"https://www.youtube.com/embed/PX6RndmM1CU?feature=oembed",
+    quetes:[
+     {titre:"Le temple de l'ombre",
+     description:"Le Temple de l'Ombre est le septième donjon et le quatrième que Link explore en tant qu'adulte. Il est situé au-dessus de la tombe royale dans le cimetière de Cocorico.",
+     lienSoluce:"https://www.puissance-zelda.com/5-Ocarina_of_Time/solution/98-Le_Temple_de_lOmbre"
+     }
+    ],
+     carte:"https://www.ign.com/wikis/the-legend-of-zelda-ocarina-of-time-3d/Walkthrough_and_Main_Quests_Guide"
+    },
+    
+
+    {nom:"The Legend of Zelda: Breath of the Wild", 
+    image:"https://s2.qwant.com/thumbr/474x266/d/1/2e8dc62f330ee05016a57fa4ec39c3b30398baab0ee5b31f1925571a722237/OIP.i-ldnn981u8dSfZA0us-pQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.i-ldnn981u8dSfZA0us-pQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description:"Le jeu se déroule dans le royaume d'Hyrule, où le protagoniste, Link, se réveille après un long sommeil de 100 ans. Il découvre que Ganon, un antagoniste emblématique de la série, a conquis Hyrule et asservi la princesse Zelda. Link doit se lancer dans une quête pour sauver Zelda, vaincre Ganon et restaurer la paix dans le royaume.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"Enigmes, Exploration", 
+    consoles:["Switch","Wii U","Switch 2"], 
+    statut:"Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/legend-zelda-breath-wild/soluce-zelda-breath-wild",
+    trailer:"https://www.youtube.com/embed/vumJiWdxQSs?feature=oembed",
+    quetes:[
+     {titre:"Les Noix Korogu",
+     description:"Les noix Korogu sont souvent citées comme une quête fastidieuse. Il faut en collecter 900 pour obtenir toutes les récompenses, ce qui peut prendre un temps considérable.",
+     lienSoluce:"https://www.jeuxvideo.com/wikis-soluce-astuces/1295312/les-900-korogu-localisation-complete-et-detaillee.htm"
+     },
+     {titre:"La créature divine:Vah'Naboris",
+      description:"Vah Naboris est la créature divine du désert, contrôlé par Ganon. Il s'agit d'un chameau mécanique géant dont le thème principal est l'électricité, situé dans la Région de la Tour des landes sauvages. Il peut être considéré comme compliqué en raison de certains terminaux à atteindre, ainsi que de son boss, la fameuse Ombre de Foudre de Ganon",
+      lienSoluce:"https://www.supersoluce.com/soluce/legend-zelda-breath-wild/vah-naboris"
+     }
+    ],
+     carte:"https://www.ign.com/maps/the-legend-of-zelda-breath-of-the-wild/hyrule"
+    },
+    
+    
+    {nom:"The Legend of Zelda: Tears of the Kingdom", 
+    image: "https://s2.qwant.com/thumbr/474x266/7/d/ae7397bf7aae6a5c3121974de607d4c4914547efee15b641a3dbce4b71cd6e/OIP.TX1A_QXVHvSeDLts9J8howHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.TX1A_QXVHvSeDLts9J8howHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Un jeu mélangeant aventure et imagination, suite au événement de Breath of the Wild, Link et Zelda décide d'explorer les souterrains du château, lieu oú repose le corps sans vie du roi démon, Ganondorf. Explorez les cieux, la terre, la mer ainsi que les souterrains d'Hyrule afin de mettre fin à son règne", 
+    genre: "RPG, Action-Aventure, Monde ouvert", 
+    sousGenre: "Enigmes, Exploration", 
+    consoles:["Switch","Switch 2"], 
+    statut: "Terminé", 
+    soluce:"https://www.jeuxvideo.com/wikis-soluce-astuces/1061540/zelda-breath-of-the-wild-2-solution-complete.htm",
+    trailer:"https://www.youtube.com/embed/Dv-7K_m589I?feature=oembed",
+    quetes:[
+     {titre:"Temple de l'eau",
+     description:"Le Temple de l'Eau est un donjon principal où Link doit activer quatre mécanismes pour purifier une source de boue et affronter le boss Mucktorok.",
+     lienSoluce:"https://www.supersoluce.com/soluce/legend-zelda-tears-kingdom/le-temple-de-l-eau"
+     },
+     {titre:"La récolte de +1000 noix Korogus",
+     description:"Ces petits êtres se cachant à travers nous en avait fait voir de toute les couleurs dans Breath of the Wild dans lequel ils étaient au nombre de 900, dans Tears of the Kingdom il y a plus de 1000 noix korogus à trouver, avec de nouvelles énigmes et de nouveaux systèmes.",
+     lienSoluce:"https://www.supersoluce.com/soluce/legend-zelda-tears-kingdom/les-noix-korogus"
+     }
+    ],
+     carte:"https://www.ign.com/maps/the-legend-of-zelda-tears-of-the-kingdom/hyrule"
+    },
+    
+    
+    {nom:"Hyrule Warriors: L'ère du fléau", 
+    image: "https://s1.qwant.com/thumbr/474x474/8/2/4a20423181b9658a399acbdafb03ef26d385261ac92d499753fb3cd9f00e5b/OIP.FDZCiRGhNLgRLGPWvdEz2gHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.FDZCiRGhNLgRLGPWvdEz2gHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Hyrule Warriors : L'Ère du Fléau est un jeu vidéo de type hack 'n' slash développé par Koei Tecmo et édité par Nintendo. Il s'agit d'un préquel à The Legend of Zelda: Breath of the Wild, se déroulant 100 ans avant les événements de ce dernier. Le jeu se concentre sur les événements ayant mené à la calamité de Ganon, un fléau qui a ravagé le royaume d'Hyrule. Les joueurs incarnent des personnages emblématiques de la série, tels que Link, Zelda, et les quatre champions (Mipha, Daruk, Urbosa et Revali), pour défendre Hyrule contre cette menace.", 
+    genre: "Action, Hack'n'slash", 
+    sousGenre: "Action-Aventure", 
+    consoles:["Switch"], 
+    statut: "Terminé", 
+    soluce: "https://www.puissance-zelda.com/22-Hyrule-Warriors-L-Ere-du-Fleau/solution",
+    trailer:"https://www.youtube.com/embed/fLLarNOLVss?feature=oembed",
+    quetes:[
+     {titre:"Bataille pour sceller le Fléau",
+     description:"Cette quête finale est souvent considérée comme l'une des plus difficiles du jeu. Elle nécessite une maîtrise des mécaniques de combat et des compétences des personnages pour vaincre les ennemis et sceller le Fléau.",
+     lienSoluce:"https://www.jeuxvideo.com/wikis-soluce-astuces/1325120/bataille-pour-sceller-le-fleau.htm"
+     },
+     {titre:"Sauvetage de l'est d'Hyrule et Sauvetage de l'ouest d'Hyrule",
+     description:"Ces missions impliquent des combats intenses et des défis tactiques pour sauver les régions d'Hyrule. Elles peuvent être particulièrement difficiles en raison du nombre élevé d'ennemis et de la complexité des objectifs.",
+     lienSoluce:""
+     }
+    ],
+    carte:"https://www.youtube.com/embed/qwkZt03nhP4?feature=oembed"
+    },
+    
+    
+    {nom:"Hollow Knight: Silksong", 
+    image: "https://s1.qwant.com/thumbr/474x266/9/2/88eeef5d1f9ced0e0f6b7b7c0ba3812fd900eb1db31545562d98fd035994ee/OIP.9yAns93doNiShAhc2IDCPgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.9yAns93doNiShAhc2IDCPgHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Hollow Knight: Silksong est la suite du jeu Hollow Knight, développé par Team Cherry. Le jeu se déroule après les événements du premier opus et suit l'histoire de Hornet, la princesse protectrice du royaume d'Hallownest. Hornet est emprisonnée et transportée par convoi. Après un accident, elle se retrouve dans un nouveau royaume appelé Pharloom. Son objectif est de remonter à la surface, aider divers insectes à exaucer leurs souhaits, restaurer des villes et découvrir qui est responsable de sa capture.Au fur et à mesure de son ascension, Hornet découvre que la véritable raison de sa présence à Pharloom est liée à une divinité endormie depuis longtemps. Cette divinité est intéressée par la capacité de Hornet à générer de la soie de manière illimitée. Utilisant une substance appelée ombresoie, elle manipule des insectes pour les rendre surpuissants et traquer Hornet sans relâche. Hornet devra se battre pour atteindre le sommet de Pharloom et décider du sort de cette divinité.", 
+    genre:"Metroidvania, 2D", 
+    sousGenre:"Jeu de plate-formes, Exploration, Enigmes", 
+    consoles:["PC","PS4","PS5","Xbox One","Xbox Series S","Xbox Series X","Switch","Switch 2"], 
+    statut: "Non Commencé", 
+    soluce: "https://www.supersoluce.com/soluce/hollow-knight-silksong/soluce-hollow-knight-silksong",
+    trailer:"https://www.youtube.com/embed/6XGeJwsUP9c?feature=oembed",
+    quetes:[
+     {titre:"La Dernière Juge",
+     description:" Boss final de l'acte 1, très rapide et avec des attaques combinées pouvant vider votre barre de vie.",
+     lienSoluce:"https://www.supersoluce.com/soluce/hollow-knight-silksong/la-derniere-juge"
+     },
+     {titre:"Lace déchue",
+     description:"Boss final de l'histoire, très rapide et imprévisible, avec des attaques basées sur le vide.",
+     lienSoluce:"https://www.supersoluce.com/soluce/hollow-knight-silksong/lace-dechue"
+     }
+    ],
+    carte:"https://www.ign.com/maps/hollow-knight-silksong"
+    },
+    
+    
+    {nom:"Genshin Impact", 
+    image: "https://s2.qwant.com/thumbr/474x474/c/5/91218ee5a9fa0d4d08bd7a2eb3bb5cb4e5816414fd382d0fcea094247379b3/OIP.UyDkh_hDS6T8qVUZwV9B1gHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.UyDkh_hDS6T8qVUZwV9B1gHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Genshin Impact se déroule dans le monde fantastique de Teyvat, divisé en sept nations correspondant à sept éléments distincts. Chaque nation est inspirée d'une culture réelle et gouvernée par un Archon, un dieu différent. L'histoire suit le Voyageur ou la Voyageuse, un personnage dont l'origine est inconnue, qui parcourt Teyvat à la recherche de son frère ou sa sœur jumelle, séparé(e) lors de leur arrivée dans ce monde. Accompagné par Paimon, un compagnon espiègle, le Voyageur s'engage dans les affaires des nations de Teyvat. Au cours de son aventure, le joueur découvre l'histoire de ce nouveau monde à travers les quêtes et les personnages rencontrés. Le jeu met en avant des personnages uniques, chacun possédant des capacités élémentaires différentes et des personnalités distinctes.", 
+    genre: "Monde ouvert, Action-Aventure, RPG, Gacha", 
+    sousGenre: "JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["Android","IOS","PS5","Xbox One","Xbox","Xbox Series S","Xbox Series X"], 
+    statut:"En cours", 
+    soluce: "https://www.bing.com/ck/a?!&&p=facbe5bc7bc4f0ad6723770ad0e504dc5ccf736991743c5b13e1d333c3235f94JmltdHM9MTc1OTg4MTYwMA&ptn=3&ver=2&hsh=4&fclid=3161ef20-25da-6793-28af-f95824de6686&u=a1aHR0cHM6Ly93d3cuc3VwZXJzb2x1Y2UuY29tL3NvbHVjZS9nZW5zaGluLWltcGFjdC9ndWlkZS1nZW5zaGluLWltcGFjdA",
+    trailer:"https://www.youtube.com/embed/SY3XGzDousM?feature=oembed",
+    quetes:[
+     {titre:" Quête des neuf piliers",
+     description:"Collecter les neuf pierres du souvenir dispersées dans Teyvat. Insérer les pierres dans les piliers. Affronter des ennemis puissants dans les ruines. Comme récompense, l'anneau terne (à vendre pour des Mora et des matériaux rares).",
+     lienSoluce:"https://www.youtube.com/embed/D6imS1T3H1Y?feature=oembed"
+     },
+     {titre:"Les Abysses Spirales",
+     description:"C'est un donjon à étages, qui a une difficulté croissante et qui nécessite de composer plusieurs équipes bien buid avec de bonnes armes et de bons aartéfacts",
+     lienSoluce:""
+     }
+    ],
+     carte:"https://genshin-impact-map.appsample.com/"
+    },
+    
+
+    {nom:"Wuthering Waves", 
+    image: "https://s2.qwant.com/thumbr/474x237/4/8/ac7afecafd6e67e828f048850a4e20c075b2dac6cd4d0b9b481bf6d156ab54/OIP.UWGhF_KPu9WlaBO_cR2B8AHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.UWGhF_KPu9WlaBO_cR2B8AHaDt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description: "Wuthering Waves plonge les joueurs dans un monde post-apocalyptique futuriste où un mystérieux désastre connu sous le nom de Lamentation a englouti la Terre, anéantissant la majeure partie de l'humanité. Dans de nombreuses régions de la planète, des ruptures avec des monstres - créatures prédatrices et assoiffées de sang - apparaissent régulièrement. Seuls quelques-uns ont su s’adapter à la menace pour riposter. Le but du reste de l’humanité est de détruire l’ennemi et de restaurer la civilisation. Le personnage principal, le Rover, souffre d'amnésie. Il se réveille après un long sommeil dans un monde déjà plongé dans le chaos. Sa tâche est, avec les résonateurs (personnages joueurs qui ont subi des mutations et acquis des capacités spéciales), de combattre des monstres et d'explorer le monde, de découvrir de nouvelles technologies et d'approfondir la nature du désastre qui s'est produit.", 
+    genre:"Monde ouvert, Action-Aventure, RPG, Gacha", 
+    sousGenre:"JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["PC","Android","IOS","PS5"], 
+    statut:"En cours", 
+    soluce:"https://www.actugaming.net/guide-wuthering-waves-soluce-645713",
+    trailer:"https://www.youtube.com/embed/hRhVca9Aeu4?feature=oembed",
+    quetes:[
+     {titre:"Tour Éprouvante",
+     description:"    Contenu end-game qui se réinitialise toutes les 4 semaines. Nécessite des personnages de haut niveau avec des builds optimisés, notamment des DPS performants. La difficulté augmente avec les étages supérieurs, exigeant des équipes bien synchronisées et des stratégies précises.",
+     lienSoluce:"https://www.youtube.com/embed/XhSZn8bfyx8?feature=oembed"
+     },
+
+     {titre:"Fantasmes des Mille Portes",
+     description:"    Événement hebdomadaire avec des défis variés. Certaines portes peuvent être particulièrement difficiles, nécessitant des équipes spécifiques et des stratégies adaptées. Les récompenses sont souvent substantielles, incitant les joueurs à relever ces défis.",
+     lienSoluce:"https://sites.google.com/view/wuwa-detente-fr/guides/astrites/fantasme-mille-porte"
+     }
+    ],
+    carte:"https://wuthering.gg/map"
+    },
+    
+    
+    {nom:"Honkai: Star Rail", 
+    image:"https://s1.qwant.com/thumbr/474x474/a/5/406a1fcf7f57a1a3d855cd156543f5bfce5e40583db3b7ae7bae67dcf7d361/OIP.eUwtGFsaO0pMOf7F_B_oMAHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.eUwtGFsaO0pMOf7F_B_oMAHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description:"Les joueurs incarnent un personnage personnalisable, le Trailblazer, qui découvre la vérité sur le noyau de Stellaron. L'histoire met en scène une guerre imminente entre les Aeons, orchestrée par des forces mystérieuses. Les Stellaron Hunters jouent un rôle clé dans la manipulation des événements.", 
+    genre:"Monde ouvert, Action-Aventure, RPG, Gacha", 
+    sousGenre:"Combat au tour par tour, JRPG, Exploration, Stratégie, Fantasy", 
+    consoles:["PS4","PS5","PC","IOS","Android"], 
+    statut:"En cours", 
+    soluce:"https://star-rail-map.appsample.com/?lang=FR",
+    trailer:"https://www.youtube.com/embed/w8vPZrMFiZ4?feature=oembed",
+    quetes:[
+     {titre:"Quêtes de Penacony",
+     description:"Les quêtes cachées de Penaconia, comme Film étrange ou Distributeur automatique abandonné dans un centre commercial, impliquent des énigmes complexes et des interactions avec des éléments du monde des rêves, ce qui les rend particulièrement difficiles.",
+     lienSoluce:"https://honkai-star-rail.fandom.com/wiki/Penacony"
+     },
+     {titre:"Quêtes de Mémoire du Chaos",
+     description:"Les étapes 11 et 12 de Memory of Chaos sont réputées pour leur difficulté élevée. Elles exigent une planification méticuleuse et des compétences avancées pour les surmonter.",
+     lienSoluce:"https://game8.co/games/Honkai-Star-Rail/archives/419660"
+     }
+    ],
+     carte:"https://star-rail-map.appsample.com/"
+    },
+
+
+    {nom:"Xenoblade Chronicles", 
+    image:"https://s1.qwant.com/thumbr/474x266/a/c/67bcd0cd514424313fa0b874c774bc5b969749a7c50d551e4c70f1e59e4de2/OIP.P64EfhxYZHsidxjN0c6cCAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.P64EfhxYZHsidxjN0c6cCAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description:"Xenoblade Chronicles se déroule dans un monde où deux titans, Bionis et Mechonis, sont en conflit. Les Homs, habitants de Bionis, luttent pour leur survie contre les Mekons, des machines venues de Mekonis.L'histoire suit Shulk, un jeune ingénieur doté du Monado, une épée légendaire capable de trancher le destin. Avec ses amis Reyn, Fiora et Dunban, il part en quête pour venger la mort de Fiora et découvrir les secrets du Monado. Au fil de leur voyage, ils découvrent les véritables enjeux derrière le conflit entre Bionis et Mekonis, et affrontent des ennemis puissants, dont les Facias, des machines dotées d'une conscience.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"JRPG, Exploration, Stratégie", 
+    consoles:["Wii","Wii U","3DS","Switch"], 
+    statut: "Terminé", 
+    soluce: "https://www.supersoluce.com/soluce/xenoblade-chronicles-edition-limitee/soluce-xenoblade-chronicles",
+    trailer:"https://www.youtube.com/embed/KfjVIQug6_E?feature=oembed",
+    quetes:[
+     {titre:"Zones secrètes et ennemis uniques",
+     description:"Les zones secrètes peuvent être longue à atteindre, certaine ne sont débloquable qu'à une certaine partie de l'histoire, d'autre ne sont plus accessible après certain évènement. Les ennemis uniques eux sont coriaces et peuvent mettre longtemps à être vaincu.",
+     lienSoluce:"https://astucejeuxps4.com/guide-de-localisation-des-zones-secretes-des-chroniques-de-xenoblade/"
+     }
+    ],
+    carte:"https://www.ign.com/wikis/xenoblade-chronicles/Locations"
+    },
+
+
+    {nom:"Xenoblade Chronicles 2", 
+    image:"https://s1.qwant.com/thumbr/474x266/8/f/a6b52a0568c55b48051f719e94e75fea126cb7a163651287c93f6f00b52aff/OIP.SRjAFqE-iTPp3lVRMGTKfAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.SRjAFqE-iTPp3lVRMGTKfAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description:"Rex, un jeune récupérateur, découvre Pyra, une lame de feu puissante, scellée dans un vaisseau naufragé. Pyra se révèle être l'Aegis, une lame légendaire capable de détruire des continents entiers. Rex et Pyra (qui peut se transformer en Mythra, sa forme plus puissante) partent en quête de l'Elysium, un paradis situé au sommet de l'Arbre Monde, pour y rencontrer l'Architecte, créateur du monde.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"JRPG, Exploration, Stratégie", 
+    consoles:["Switch"], 
+    statut:"Non Commencé", 
+    soluce:"https://www.supersoluce.com/soluce/xenoblade-chronicles-2/soluce-xenoblade-chronicles-2",
+    trailer:"https://www.youtube.com/embed/Xjpao-nD5YU?feature=oembed",
+    quetes:[
+    {titre:"Les lames",
+    description:"Ce sont des quêtes centrées sur un personnage, ce n'est pas forcement difficile, mais c'est surtout long",
+    lienSoluce:"https://www.supersoluce.com/soluce/xenoblade-chronicles-2/les-lames"
+    }
+    ],
+    carte:"https://www.ign.com/maps/xenoblade-chronicles-2"
+    },
+    
+    
+    {nom:"Xenoblade Chronicles 3", 
+    image:"https://s1.qwant.com/thumbr/400x0/1/c/93ffb721a88d2ccb64ba3c304fb731ccdf8a0c0447ef3a15a45a0e3b67e1e1/Xenoblade_3.png?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2F7%2F76%2FXenoblade_3.png&q=0&b=1&p=0&a=0", 
+    description:"Xenoblade Chronicles 3 se déroule dans le monde d'Aionios, où deux nations, Keves (technologie mécanique) et Agnus (technologie magique), sont en guerre éternelle. Les habitants naissent pour combattre et ont une espérance de vie limitée à dix ans. Les protagonistes, Noah (Keves) et Mio (Agnus), sont des passeurs d'âmes qui jouent de la flûte pour guider les âmes des défunts. Après une rencontre fortuite et une attaque d'un ennemi mystérieux, ils fusionnent en une forme appelée Ouroboros et deviennent des fugitifs recherchés par les deux nations.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"JRPG, Exploration, Stratégie", 
+    consoles:["Switch"], 
+    statut:"Terminé", 
+    soluce:"https://www.supersoluce.com/soluce/xenoblade-chronicles-3/soluce-xenoblade-chronicles-3",
+    trailer:"https://www.youtube.com/embed/fG_hINfOz28?feature=oembed",
+    quetes:[
+     {titre:"Combat contre les consuls",
+     description:"Les consuls sont les boss du jeu, certains sont plus compliqués d'autre et nécessitent d'avoir un level supérieur au leur",
+     lienSoluce:""
+     },
+     {titre:"Combat contre le boss final: Z",
+     description:"Le boss final est particulièrement long et peut nécessiter du farming d'expérience pour être vaincu lors du premier essai.",
+     lienSoluce:"https://www.ign.com/wikis/xenoblade-chronicles-3/Final_Boss_Battle"
+     }
+    ],
+     carte:"https://www.supersoluce.com/soluce/xenoblade-chronicles-3/cartes-du-monde"
+    },
+
+
+    {nom:"Xenoblade Chronicles X", 
+    image:"https://s2.qwant.com/thumbr/474x237/7/b/ecd1a6d38af430ea097c55948546852f998cda76a7cf550c218526081e016c/OIP.AZzv262CUfFPtR182nvGbwHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.AZzv262CUfFPtR182nvGbwHaDt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0", 
+    description:"En 2054, une guerre intergalactique éclate sur Terre, forçant l'humanité à fuir vers de nouvelles planètes. Le projet Exodus est lancé, mais la plupart des vaisseaux colonisateurs sont détruits. Le White Whale, un vaisseau américain, parvient à s'échapper avec des humains en cryostase. Deux ans plus tard, le vaisseau est attaqué par des aliens près de la planète Mira. Après une bataille acharnée, le White Whale s'écrase sur Mira.", 
+    genre:"RPG, Action-Aventure, Monde ouvert", 
+    sousGenre:"JRPG, Exploration, Stratégie", 
+    consoles:["Switch", "Wii U"], 
+    statut:"Non Commencé", 
+    soluce:"https://www.supersoluce.com/soluce/xenoblade-chronicles-x/soluce-xenoblade-chronicles-x",
+    trailer:"https://www.youtube.com/embed/meabXp-IFkM?feature=oembed",
+    quetes:[
+     {titre:"Exploration",
+     description:"Les zones comme Oblivia sont réputées pour leurs falaises et leurs ennemis puissants, ce qui peut rendre les quêtes dans ces régions plus difficiles.",
+     lienSoluce:""
+     }
+    ],
+    carte:"https://www.supersoluce.com/soluce/xenoblade-chronicles-x/cartes-et-zones"
+    },
+
+
+    ];
+
+    // utilitaires
+    const normalize = s => (""+s).toLowerCase().trim().replace(/\s+/g,' ');
+    const mainContainer = document.getElementById('mainContainer');
+    const title = document.getElementById('pageTitle');
+    const searchBar = document.getElementById('searchBar');
+    const searchInput = document.getElementById('searchInput');
+    const genreFilter = document.getElementById('genreFilter');
+    const sousGenreFilter = document.getElementById('sousGenreFilter');
+    const consoles = [...new Set(games.flatMap(g => g.consoles.map(normalize)))];
+
+    const consolesFromGames = Array.from(new Set(games.flatMap(g => g.consoles)));
+    const extraConsoles = ["PS5","PS4","PS3","Xbox","Switch","GameCube"];
+    const consolesList = Array.from(new Set([...consolesFromGames, ...extraConsoles]));
+
+    let consoleActiveNorm = null;
+
+    function afficherConsoles(){
+      consoleActiveNorm = null;
+      title.textContent = "🎮 Choisis ta console";
+      searchBar.style.display = "none";
+      mainContainer.innerHTML = "";
+      consolesList.forEach(c=>{
+        const card=document.createElement('div');
+        card.className='console-card';
+        card.innerHTML=`<h2>${c}</h2>`;
+        card.addEventListener('click',()=>afficherJeux(c));
+        mainContainer.appendChild(card);
+      });
+    }
+
+
+
+    function afficherJeux(consoleName){
+      consoleActiveNorm=normalize(consoleName);
+      title.textContent=`🎮 Jeux sur ${consoleName}`;
+      searchBar.style.display='block';
+      searchInput.value='';
+      genreFilter.innerHTML='<option value="">Tous genres</option>';
+      sousGenreFilter.innerHTML='<option value="">Tous sous-genres</option>';
+
+      mainContainer.innerHTML='';
+      const backBtn=document.createElement('div');
+      backBtn.className='back-button';
+      backBtn.textContent='⬅ Retour';
+      backBtn.addEventListener('click',afficherConsoles);
+      mainContainer.appendChild(backBtn);
+
+      const jeuxDispo=games.filter(g=>g.consoles.some(c=>normalize(c)===consoleActiveNorm));
+      remplirFiltres(jeuxDispo);
+      afficherJeuxFiltres();
+    }
+
+    function remplirFiltres(jeux){
+      const genres=Array.from(new Set(jeux.map(g=>g.genre))).sort();
+      const sousGenres=Array.from(new Set(jeux.map(g=>g.sousGenre))).sort();
+      genreFilter.innerHTML='<option value="">Tous genres</option>'+genres.map(g=>`<option value="${g}">${g}</option>`).join('');
+      sousGenreFilter.innerHTML='<option value="">Tous sous-genres</option>'+sousGenres.map(s=>`<option value="${s}">${s}</option>`).join('');
+    }
+
+    function afficherJeuxFiltres(){
+      if(!consoleActiveNorm)return;
+      const q=searchInput.value.toLowerCase().trim();
+      const genre=genreFilter.value;
+      const sous=sousGenreFilter.value;
+      const jeuxFiltres=games.filter(g=>
+        g.consoles.some(c=>normalize(c)===consoleActiveNorm)&&
+        g.nom.toLowerCase().includes(q)&&
+        (genre===''||g.genre===genre)&&
+        (sous===''||g.sousGenre===sous)
+      );
+
+      while(mainContainer.children.length>1)mainContainer.removeChild(mainContainer.lastChild);
+      if(jeuxFiltres.length===0){
+        const p=document.createElement('p');
+        p.textContent="Aucun jeu ne correspond.";
+        mainContainer.appendChild(p);
+        return;
+      }
+
+      jeuxFiltres.forEach(game=>{
+        const card=document.createElement('div');
+        card.classList.add('game-card');
+        const statusClass=game.statut==="Terminé"?"termine":game.statut==="En cours"?"encours":"noncommence";
+        card.innerHTML=`
+          <img src="${game.image}" alt="${game.nom}">
+          <h2>${game.nom}</h2>
+          <p><strong>Genre :</strong> ${game.genre}<br><strong>Sous-genre :</strong> ${game.sousGenre}</p>
+          <span class="status ${statusClass}">${game.statut}</span>
+        `;
+        card.addEventListener('click',()=>afficherFicheJeu(game,consoleActiveNorm));
+        mainContainer.appendChild(card);
+      });
+    }
+
+    function afficherFicheJeu(jeu,consoleSel){
+      title.textContent=jeu.nom;
+      mainContainer.innerHTML=`
+        <div class='back-button'>⬅ Retour</div>
+        <div class='game-card'>
+          <img src="${jeu.image}" alt="${jeu.nom}">
+          <div class="game-info">
+            <h2>${jeu.nom}</h2>
+            <p>${jeu.description}</p>
+            <p><strong>Genre :</strong> ${jeu.genre}<br><strong>Sous-genre :</strong> ${jeu.sousGenre}</p>
+            <p><strong>Console(s) :</strong> ${jeu.consoles.join(", ")}</p>
+            <span class="status ${getStatutClass(jeu.statut)}">${jeu.statut}</span><br>
+            <a href="${jeu.soluce}" class="soluce-link" target="_blank">Voir la soluce 🔗</a>
+
+
+            <h3>🎞️ Trailer</h3>
+            <iframe width="100%" height="220" src="${jeu.trailer}" allowfullscreen></iframe>
+
+            <h3>🧭 Quêtes Difficiles</h3>
+          ${jeu.quetes.length > 0 
+  ? jeu.quetes.map(q => `
+    <div class="quest">
+      <strong>${q.titre}</strong><br>${q.description}<br>
+      ${q.lienSoluce ? `<a href="${q.lienSoluce}" target="_blank" class="soluce-link">Voir la soluce de cette quête 🔗</a>` : ""}
+    </div>`).join("")
+  : "<p>Aucune soluce ou mission disponible pour ce jeu.</p>"
+}
+
+          
+  <h3>🗺️ Carte</h3>
+   ${jeu.carte ? `
+  <iframe src="${jeu.carte}" width="100%" height="300" style="border:0;" allowfullscreen loading="lazy"></iframe>
+` : "<p>Aucune carte disponible pour ce jeu.</p>"}
+            </div>
+          </div>
+        </div>
+      `;
+      document.querySelector('.back-button').addEventListener('click',()=>afficherJeux(consoleSel));
+    }
+
+    function getStatutClass(statut){
+      statut=statut.toLowerCase();
+      if(statut.includes("termin"))return"termine";
+      if(statut.includes("cours"))return"encours";
+      return"noncommence";
+    }
+
+    searchInput.addEventListener('input',afficherJeuxFiltres);
+    genreFilter.addEventListener('change',afficherJeuxFiltres);
+    sousGenreFilter.addEventListener('change',afficherJeuxFiltres);
+    afficherConsoles();
+
+ </script>
+
+
+
+<!-- ===== FOOTER ===== -->
+<footer id="siteFooter">
+  <p>🎮 Fait avec passion par <strong>Julio</strong> — © 2025</p>
+
+  <div class="footer-links">
+    <a href="#top" id="scrollTopBtn">⬆ Retour en haut</a>
+    <a href="propos.html" target="blank" rel="noopener noreferrer">À propos</a>
+    <a href="Mentions.html" target="blank" rel="noopener noferrer">Mentions légales</a>
+    <a href="mailto:jules81440@outlook.com">Contact</a>
+  </div>
+
+   <p class="quote">"Un jeu n’est pas juste un passe-temps, c’est une aventure." 🕹️</p>
+</footer>
+
+<!-- ===== MODALES (popups) ===== -->
+<div id="aboutModal" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="aboutModal">&times;</span>
+    <h2>À propos 🎮</h2>
+    <p>Ce site est ma collection personnelle de jeux vidéo. J’y note mes progrès, mes impressions et des infos utiles.</p>
+  </div>
+</div>
+
+<div id="legalModal" class="modal">
+  <div class="modal-content">
+    <span class="close" data-target="legalModal">&times;</span>
+    <h2>Mentions légales ⚖️</h2>
+    <p>Ce site est un projet personnel et non commercial. Les images et vidéos appartiennent à leurs ayants droit respectifs.</p>
+  </div>
+</div>
+
+
+</body>
+</html>
