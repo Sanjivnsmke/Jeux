@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost of Tsushima - Royaumes et Régions</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  background: url('https://t4.ftcdn.net/jpg/06/54/06/81/240_F_654068175_SPGE26b69jyn60S48aflHnzVxuHC6AnP.jpg') no-repeat center/cover;
+  background-attachment: fixed;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.6);
+  min-height: 100vh;
+  padding: 60px 20px;
+}
+
+h1 {
+  color: #ffcc00;
+  text-shadow: 2px 2px 8px black;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.card {
+  background: rgba(0, 0, 0, 0.75);
+  border: 2px solid #ffcc00;
+  border-radius: 15px;
+  width: 260px;
+  padding: 20px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  background: rgba(255, 204, 0, 0.9);
+  color: #000;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.card h2 {
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+
+.details {
+  display: none;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #ffcc00;
+  border-radius: 10px;
+  margin: 20px auto;
+  padding: 15px;
+  width: 90%;
+  max-width: 800px;
+  text-align: left;
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.back-button {
+  margin-top: 0px;
+  background-color: #ffcc00;
+  color: black;
+  border: none;
+  padding: 10px 25px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.back-button:hover {
+  background-color: #ffaa00;
+  transform: scale(1.1);
+}
+</style>
+</head>
+
+<body>
+<div class="overlay">
+
+  <h1>🗾 Les Royaumes de Tsushima</h1>
+
+  <div class="container">
+
+    <div class="card" onclick="toggleDetails('royaume1')">
+      <img src="https://s2.qwant.com/thumbr/474x237/d/1/259d0c69e726bfe444ec7e07c8d0422a25858fc899abaacb67fea210885b93/OIP.gFM1ULs2VWkyHfJ85HAEJgHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.gFM1ULs2VWkyHfJ85HAEJgHaDt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Izuhara">
+      <h2>Izuhara</h2>
+      <p>La première région envahie par les Mongols, riche en forêts et en villages côtiers.</p>
+    </div>
+
+    <div class="card" onclick="toggleDetails('royaume2')">
+      <img src="https://s1.qwant.com/thumbr/474x266/a/e/3839ae63dd32b6d7ba973e2888d94ff890540d9d71519ce0606933a6c9870f/OIP.A3jFLJYnWy9HLB4hNjctnAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.A3jFLJYnWy9HLB4hNjctnAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Toyotama">
+      <h2>Toyotama</h2>
+      <p>Un territoire fertile au cœur de Tsushima, théâtre de la rébellion et du courage.</p>
+    </div>
+
+    <div class="card" onclick="toggleDetails('royaume3')">
+      <img src="https://s1.qwant.com/thumbr/474x237/0/8/21f465efcfbfc4d7fd402acb3d514ee13e16c1132e59e14cc0ab8fe98c90ee/OIP.EARxU4k7d3Mi89t5mu3h1wHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.EARxU4k7d3Mi89t5mu3h1wHaDt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Kamiagata">
+      <h2>Kamiagata</h2>
+      <p>Les terres glacées du nord, dernier bastion avant la bataille finale contre Khotun Khan.</p>
+    </div>
+
+     <!-- Île d’Iki -->
+    <div class="card" onclick="toggleDetails('royaume4')">
+      <img src="https://s1.qwant.com/thumbr/474x266/3/e/bb1aac05854774ea681fd65d6ba9732ffa3e38d689a1116d0168f49492121a/OIP.-IukDMmh-d8JPm4T3zCWZQHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.-IukDMmh-d8JPm4T3zCWZQHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Île d'Iki">
+      <h2>Île d’Iki</h2>
+      <p>Petite île au sud, frappée par l’invasion mongole.</p>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- Détails des royaumes -->
+  <div id="royaume1" class="details">
+    <h3>🌿 Izuhara</h3>
+    <p>Izuhara est la porte sud de Tsushima et la première région frappée par l’invasion mongole.  
+    Ses villages de pêcheurs et ses forêts luxuriantes abritent de nombreux sanctuaires.  
+    C’est ici que Jin Sakai commence son voyage, apprenant les voies du Fantôme et la douleur de la guerre.</p>
+    <p>Les champs de blé, les criques et les temples calmes contrastent avec la violence des combats.</p>
+  </div>
+
+  <div id="royaume2" class="details">
+    <h3>🌸 Toyotama</h3>
+    <p>Centre de l’île, Toyotama représente la résistance et la renaissance de Tsushima.  
+    Jin y trouve des alliés, mais aussi des ennemis cachés.  
+    Ses villages prospères sont ravagés par le feu et la peur,  
+    tandis que les collines et les rizières deviennent des champs de bataille.</p>
+    <p>C’est ici que le Fantôme devient une légende.</p>
+  </div>
+
+  <div id="royaume3" class="details">
+    <h3>❄️ Kamiagata</h3>
+    <p>Région du nord, couverte de neige et balayée par le vent.  
+    C’est la dernière ligne de défense de Tsushima, où Jin affronte ses ultimes épreuves.  
+    La nature y est aussi belle que cruelle, et le froid symbolise la solitude du héros.  
+    Le château de Khotun Khan domine ces terres gelées, attendant le duel final.</p>
+  </div>
+
+  <div id="royaume4" class="details">
+    <h3>🏝️ Ile d'Iki</h3>
+    <p>Ile solitaire au large de Tsushima, elle est entourée de falaises abrubtes, de fôrets verdoyantes et de paysages à couper le souffle.
+      Jin s'y rend pour affronter l'Aigle, qui a pris le contrôle de l'île.
+      On y rencontre des personnages innatendus, alliés comme ennemis, comme Kenji ou encore le bandit qui a tué Kazumasa.
+    </p>
+  </div>
+
+  <button class="back-button" onclick="window.location.href='lore debut.html'">⬅️ Retour au Lore</button>
+
+</div>
+
+<script>
+function toggleDetails(id) {
+  const el = document.getElementById(id);
+  if (el.style.display === 'block') {
+    el.style.display = 'none';
+  } else {
+    document.querySelectorAll('.details').forEach(d => d.style.display = 'none');
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+</script>
+
+</body>
+</html>
