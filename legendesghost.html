@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghost of Tsushima - Légendes et Mythes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  font-family: 'Press Start 2P', cursive;
+  background: url('https://s2.qwant.com/thumbr/474x266/f/3/61442df9db6d0c523f4577abedcc6a617b30f932918e031421d249d983ee78/OIP.PfjVdfcU1zF2yRpReGfRqwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.PfjVdfcU1zF2yRpReGfRqwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0') no-repeat center/cover;
+  background-attachment: fixed;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+
+h1 {
+  color: #ffcc00;
+  text-shadow: 2px 2px 8px black;
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.card {
+  background: rgba(0, 0, 0, 0.75);
+  border: 2px solid #ffcc00;
+  border-radius: 15px;
+  width: 260px;
+  padding: 20px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  background: rgba(255, 204, 0, 0.9);
+  color: #000;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.card h2 {
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+
+.details {
+  display: none;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #ffcc00;
+  border-radius: 10px;
+  margin: 20px auto;
+  padding: 15px;
+  width: 90%;
+  max-width: 800px;
+  text-align: left;
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
+.back-button {
+  margin-top: 50px;
+  background-color: #ffcc00;
+  color: black;
+  border: none;
+  padding: 10px 25px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.back-button:hover {
+  background-color: #ffaa00;
+  transform: scale(1.1);
+}
+
+footer {
+    text-align: center;
+    margin-top: 220px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    font-size: 0.9em;
+  }
+</style>
+</head>
+
+<body>
+<div class="overlay">
+
+  <h1>🏮 Légendes et Mythes de Tsushima</h1>
+
+  <div class="container">
+
+    <div class="card" onclick="toggleDetails('mythe1')">
+      <img src="https://s2.qwant.com/thumbr/474x355/4/2/de6d292c511af2cfa879c617d1aca1a2af8726392760bcac5c5b47f8b40cb3/OIP.G94drcbU59gLHKjTBaKoTwHaFj.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.G94drcbU59gLHKjTBaKoTwHaFj%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Tadayori">
+      <h2>La Légende de Tadayori</h2>
+      <p>Un archer légendaire dont la précision aurait été bénie par les kami eux-mêmes.</p>
+    </div>
+
+    <div class="card" onclick="toggleDetails('mythe2')">
+      <img src="https://s1.qwant.com/thumbr/474x266/1/9/ce598ff368fae7ccfb289412982386bca1b4d56512d1758908de214ebd3a21/OIP.jo6rumEdsOWWDQgsdIUxVgHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.jo6rumEdsOWWDQgsdIUxVgHaEK%3Fpid%3DApi&q=0&b=1&p=0&a=0" alt="Gosaku">
+      <h2>L’Armure de Gosaku</h2>
+      <p>Une armure forgée pour protéger les paysans, symbole de bravoure et de sacrifice.</p>
+    </div>
+    
+    <div class="card" onclick="toggleDetails('mythe3')">
+       <img src="https://s1.qwant.com/thumbr/474x237/9/7/d255e08501c6c4be797506d1c379a2bbced60cd0cfffa1640602bc909ab581/OIP.1B41E9MTeIROVyr5dFG9uQHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.1B41E9MTeIROVyr5dFG9uQHaDt%3Fpid%3DApi&q=0&b=1&p=0&a=0" alt="Uchitsune">
+       <h2>La malédiction d'Uchitsune</h2>
+       <p>Un archer légendaire connu pour avoir tué un démon</p>
+      </div>
+  </div>
+
+  <!-- Détails des légendes -->
+  <div id="mythe1" class="details">
+    <h3>🏹 La Légende de Tadayori</h3>
+    <p>Tadayori était un maître archer connu pour sa précision surnaturelle. 
+    On dit qu’il tira mille flèches sans jamais manquer sa cible. 
+    Après sa mort, son armure et son arc furent cachés pour être retrouvés par un digne successeur. 
+    Jin découvre cette armure en suivant les rumeurs des bardes de Tsushima.</p>
+  </div>
+
+  <div id="mythe2" class="details">
+    <h3>🛡️ L’Armure de Gosaku</h3>
+    <p>Gosaku était un fermier devenu héros. 
+    Lorsque les Mongols attaquèrent, il protégea son village sans relâche. 
+    Son armure, forgée à partir de métaux sacrés, fut dispersée après sa mort. 
+    Jin rassemble ses pièces pour la reconstituer et perpétuer sa légende.</p>
+  </div>
+
+  <div id="mythe3" class="details">
+    <h3>👺 La malédiction d'Uchitsune</h3>
+    <p>Uchitsune était un archer renommé, connu pour son long arc béni par un kami.
+      Il a tué un démon ailé, mais a été maudit par ce dernier lors de son dernier souffle.
+      Avec la malédiction, Uchitsune a commencé à voir des formes de démon partout, il a perdu la raison et a tué de nombreuses personnes innocentes.
+      Il a été capturé et jugé, il meurt seul et oublié.
+    </p>
+  </div>
+
+  <button class="back-button" onclick="window.location.href='lore debut.html'">⬅️ Retour au Lore</button>
+
+</div>
+
+ <footer>
+    © 2025 - Encyclopédie des Jeux | Ghost of Tsushima-Légendes japonaises
+  </footer>
+
+<script>
+function toggleDetails(id) {
+  const el = document.getElementById(id);
+  if (el.style.display === 'block') {
+    el.style.display = 'none';
+  } else {
+    document.querySelectorAll('.details').forEach(d => d.style.display = 'none');
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+</script>
+
+</body>
+</html>
