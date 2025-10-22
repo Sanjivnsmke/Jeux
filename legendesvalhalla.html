@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Légendes – Assassin’s Creed Valhalla</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Cinzel', serif;
+    color: #fff;
+    background: url('https://s2.qwant.com/thumbr/474x300/5/9/5134abd0839156cbb0cfaff983946ff22628217ed0ccd14b951af9d8d283b4/OIP.CqCL-DopYiRnuMDPU9RpKAHaEs.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.CqCL-DopYiRnuMDPU9RpKAHaEs%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: -1;
+  }
+
+  header {
+    text-align: center;
+    padding: 40px 15px;
+    background: rgba(0,0,0,0.6);
+    border-bottom: 2px solid #c49a3d;
+  }
+
+  header h1 {
+    font-size: 2.5em;
+    color: #c49a3d;
+    text-shadow: 2px 2px 5px #000;
+  }
+
+  header h2 {
+    font-size: 1.2em;
+    font-style: italic;
+    color: #ddd;
+  }
+
+  .legende {
+    max-width: 900px;
+    background: rgba(0,0,0,0.6);
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.7);
+    line-height: 1.7;
+  }
+
+  .legende h2 {
+    color: #e3b65f;
+    border-bottom: 2px solid #e3b65f;
+    padding-bottom: 5px;
+    text-shadow: 1px 1px 4px #000;
+  }
+
+  .legende p {
+    font-size: 1.1em;
+    margin: 15px 0;
+  }
+
+  .legende img {
+    width: 100%;
+    border-radius: 10px;
+    margin: 15px 0;
+  }
+
+  .btn-retour {
+    display: inline-block;
+    margin: 40px auto;
+    background: #e3b65f;
+    color: #000;
+    padding: 12px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+
+  .btn-retour:hover {
+    background: #f6dc8c;
+    transform: scale(1.05);
+  }
+
+  footer {
+    text-align: center;
+    padding: 15px;
+    background: rgba(0,0,0,0.7);
+    font-size: 0.9em;
+    border-top: 2px solid #c49a3d;
+  }
+</style>
+</head>
+<body>
+
+  <header>
+    <h1>⚔️ Légendes du Nord ⚔️</h1>
+    <h2>Les mythes d’Asgard et le destin d’Eivor</h2>
+  </header>
+
+  <section class="legende">
+    <h2>🦅 Le Chant d’Odin</h2>
+    <img src="https://s1.qwant.com/thumbr/474x266/a/6/1768ab16a733b5f1e3ecc40c531465608c8bcdb20ef98adbdce5611807fb95/OIP.fC6dba95QNeUVP_yp6YOnAHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.fC6dba95QNeUVP_yp6YOnAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Odin Valhalla">
+    <p>
+      Dans les songes d’Eivor résonne la voix du Père de Tout. Odin, souverain d’Asgard, observe l’humanité avec la froideur du destin.  
+      Il murmure à l’oreille des guerriers, leur promettant la gloire éternelle au Valhalla, mais son regard dissimule toujours une ruse.  
+      Car nul ne défie le fil du destin tissé par les Nornes sans en payer le prix.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>🌌 Les Royaumes des Dieux</h2>
+    <img src="https://s2.qwant.com/thumbr/474x266/c/6/3c6aa2492581ea424b136bbaff583d71052927558c14a393398cb868c65cb0/OIP.bBxznzUm1oTJved6tCcKXwHaEK.jpg?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.bBxznzUm1oTJved6tCcKXwHaEK%3Fcb%3D12%26pid%3DApi%26ucfimg%3D1&q=0&b=1&p=0&a=0" alt="Asgard et Jotunheim">
+    <p>
+      Asgard, domaine des dieux. Jötunheim, terre des géants.  
+      Ces mondes s’entrelacent dans les souvenirs d’Eivor, révélant la vérité derrière le mythe.  
+      Les dieux ne sont pas que des légendes : ils furent des êtres de chair, anciens et puissants, dont le savoir et la folie ont façonné l’humanité.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Andhrimnir</h2>
+    <img src="https://s2.qwant.com/thumbr/300x275/7/7/ea132f4290b39e1b5f24b8a1144f06024bcd1907b975325f77fb4400335163/OIP.Hva4VbOUR1SzbPYaecIOxgAAAA.jpg?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.Hva4VbOUR1SzbPYaecIOxgAAAA%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Andhrimnir Valhalla">
+    <p>
+      Andhrimnir est une figure importante de la mythologie nordique, connu comme le cuisinier des dieux et des guerriers dans le Valhalla. Son rôle est central dans les festins éternels qui y sont organisés.
+      Andhrimnir prépare les repas pour les Einherjar, les guerriers morts au combat et accueillis au Valhalla, il cuisine quotidiennement le sanglier cosmique Sæhrímnir, qui est tué et ressuscite chaque jour pour être à nouveau servi.
+       Il produit également l'hydromel des dieux à partir du lait de la chèvre mythique Heiðrún, qui se nourrit des feuilles de l'arbre Yggdrasil.
+       Le nom "Andhrimnir" provient du vieux norrois et signifie "celui qui est exposé à la suie", en référence à son rôle de cuisinier.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Angrboda</h2>
+    <img src="https://s2.qwant.com/thumbr/474x266/e/d/3158e06a30e842a3ad28d6524c3ed873d7bbcac60e8cf2b90e2c5d96c2be56/OIP.uu29oYz4tcDMf3KfDQZlFAHaEK.jpg?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.uu29oYz4tcDMf3KfDQZlFAHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Angrboda Valhalla">
+    <p>
+        Angrboda est une figure majeure de la mythologie nordique, connue comme une géante (jotunn) et la mère de trois êtres monstrueux et emblématiques : Fenrir (le loup), Jormungandr (le serpent de Midgard) et Hel (la déesse du royaume des morts). Elle est souvent associée au chaos et aux aspects sombres de la nature, reflétant la nature de ses enfants.
+        Bien que son rôle dans les mythes soit parfois secondaire, Angrboda joue un rôle crucial en tant que mère des créatures qui sont au cœur des prophéties de Ragnarök, la fin du monde dans la mythologie nordique. Ses enfants sont des symboles de destruction et de chaos, et leur existence est profondément liée aux destinées des dieux et des géants.
+        Angrboda vit dans la forêt de fer, située à Jotunheim, le royaume des géants. Son nom signifie "celle qui apporte le chagrin" et elle est décrite comme ayant les cheveux de la couleur du sang séché. Elle est également connue pour être la compagne du dieu Loki, avec qui elle a conçu ses trois enfants monstrueux.
+        Angrboda incarne l'aspect féminin du chaos. Dans de nombreuses cultures, les femmes sont souvent associées à l'inconnu et à l'imprévisible, et Angrboda incarne parfaitement cet archétype. Sa dualité en tant que créatrice et destructrice est essentielle pour comprendre la vision nordique du monde, où la vie et la mort coexistent en un équilibre délicat.
+        L'héritage d'Angrboda est profond. Ses enfants, en tant que présages du Ragnarök, sont centraux dans le récit de la fin du monde. Cela souligne son importance en tant que figure qui incarne le chaos que les dieux doivent affronter. Son histoire rappelle l'inévitabilité du changement et la nature cyclique de l'existence.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Audhumla</h2>
+    <img src="https://s1.qwant.com/thumbr/474x286/0/c/02a0462bdcdf761977724b7466e80fd22d915c6cde0f96d4e2b2bef52485ec/OIP.ZuA5vDhjbct4zPUHC-iItwHaEe.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.ZuA5vDhjbct4zPUHC-iItwHaEe%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Audhumla">
+    <p>
+        Audhumla est une vache primordiale de la mythologie nordique, jouant un rôle central dans le récit de la création.
+        Audhumla est la vache primordiale de la mythologie nordique, née de la glace fondue de Ginnungagap, qui a nourri Ymir et révélé Buri en léchant la glace.
+        Audhumla est une divinité nourricière de la mythologie nordique, née de la glace et de l'aurore du temps.
+        Elle peut être interprétée comme le néant cosmique ou la Voie Lactée, avec une fonction nourricière symbolisée par le lait.
+        Son mythe peut être rapproché de la Trimūrti hindoue, avec Odin, Thor (Vili) et Freyr (Vé) représentant les forces créatrices de l'univers.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Baldr</h2>
+    <img src="https://s1.qwant.com/thumbr/474x474/8/b/325df8f5b554ca65f182fde9027b0522975d10e7e6ff32489a9f788c48f74d/OIP.SGK7k5HiQtnw1pCHYnLnTAHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.SGK7k5HiQtnw1pCHYnLnTAHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Baldr">
+    <p>
+        Balder (également orthographié Baldr ou Baldur) est un des dieux nordiques de la famille des Ases faisant partie des divinités des Ases. Il est le fils d’Odin et de Frigg, l’époux de la déesse Nanna et le père de Forseti, le dieu de la justice dans la mythologie nordique. Balder est également le frère jumeau du dieu aveugle, Höd. Aimé de tous les dieux, les déesses et autres êtres vivants, Balder est beau, gracieux et si joyeux qu’il dégage de la lumière.
+        Balder est une divinité associée à toutes les bonnes choses, notamment à ce qui est beau et gai dans le monde. Tout comme le bien-aimé Freyr, Balder est caractérisé par un esprit amical et une très grande gentillesse. Contrairement à Freyr, en revanche, il n’est pas particulièrement puissant ni doté d’un grand pouvoir comme Thor a pu l’être.
+        Tout comme Freyr, Balder est présenté comme un grand et bel homme aux cheveux longs et à la barbe épaisse. Il est musclé et ne porte qu’un pagne et une cape. Certaines représentations, probablement sur la base d’interprétations ultérieures à l’ère Viking, présentent Balder portant une armure ou une tunique, mais la version de Balder au torse nu semble être la plus populaire.
+        Balder apparaît généralement avec un bouclier et une lance. Néanmoins, il est rarement dans une position de combat, indiquant qu’il n’est pas un dieu guerrier. Il est représenté avec sa lance dirigée vers le bas et son bouclier posé au sol.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Bragi</h2>
+    <img src="https://s1.qwant.com/thumbr/474x266/1/4/1b0e10799deba5936377efc64ca79dfafab4590ae238d08683dea86ff5ebf5/OIP.HkNjS4moLYJeXkL65QLKTwHaEK.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.HkNjS4moLYJeXkL65QLKTwHaEK%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Bragi">
+     <p>
+        Bragi est une figure majeure de la mythologie nordique, connu comme le dieu de la poésie, de l'éloquence et de la musique.
+        Fils d'Odin, le roi des dieux, et selon certaines sources, de la géante Gunnlod, il est également l'époux d'Iðunn, déesse associée aux pommes de jeunesse.
+        Bragi incarne l'art poétique et la sagesse. Il est souvent représenté avec une longue barbe gravée de runes.Il est principalement connu à travers l'Edda Poétique et l'Edda en Prose, où il est décrit comme un sage poète qui charme les dieux et les einherjar (les morts honorés au Valhalla).
+        Bragi est associé à l'hydromel poétique, un nectar divin qui confère un talent poétique exceptionnel. Son nom est à l'origine du terme "bragr", qui désigne une personne douée en poésie ou en éloquence.
+     </p>
+  </section>
+
+  <section class="legende">
+    <h2>Buri</h2>
+    <img src="https://s1.qwant.com/thumbr/474x286/8/5/a10b4521b8b5c761faf5817ca120b4897394a562a6e0349ec989f3f09f00c3/OIP.52bDZOcKGOXQ5o-64NrbjwHaEe.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.52bDZOcKGOXQ5o-64NrbjwHaEe%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Buri">
+    <p>
+        Buri est le premier dieu de la mythologie nordique. Il est né de manière mythique, léché par la vache Audhumla à partir de la glace de Niflheim. Son nom pourrait provenir du verbe norrois bera, signifiant "engendrer".
+        Buri est l'ancêtre des Ases, l'un des deux principaux groupes de dieux nordiques. Il est le père de Borr, qui épouse Bestla et engendre trois fils : Odin, Vili et Vé. Ces derniers sont des figures centrales dans la mythologie nordique, notamment Odin, chef des dieux et créateur de Midgard.
+        La lignée de Buri est fondamentale dans la cosmologie nordique. Ses descendants, notamment Odin, Vili et Vé, jouent un rôle crucial dans la création du monde et des mythes nordiques. Buri symbolise le début de toutes choses et le lien entre le passé mythique et le présent divin.
+        Buri représente le commencement de la lignée divine et la fondation des mythes nordiques. Son histoire illustre la complexité et la richesse de la mythologie nordique, transmise oralement puis consignée dans des textes comme l'Edda en prose et l'Edda en chanson.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Eir</h2>
+    <img src="https://s1.qwant.com/thumbr/474x474/9/4/d5bf373f65111a3d912c2af907a9b3c3bd720e35a1993a33a00dc24b742017/OIP.GuXZDSb--nT6Zh95xbD6LQHaHa.jpg?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.GuXZDSb--nT6Zh95xbD6LQHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Eir">
+    <p>
+        Eir est une figure mystérieuse de la mythologie nordique, souvent associée à la guérison et à la médecine. Son nom signifie "miséricorde" ou "aide". Elle est généralement considérée comme une servante de la déesse Frigg et parfois comme une Valkyrie d'Odin.
+        Eir est connue pour ses compétences en guérison, notamment grâce à sa connaissance des herbes médicinales. Elle peut même ressusciter les morts.
+        Elle est reconnue pour sa sagesse et ses conseils éclairés, consultés par les autres dieux et déesses.Elle est souvent représentée avec des plantes médicinales, des potions, un bâton de guérison ou un serpent, symbolisant son pouvoir de régénération.
+         Elle habite la montagne Lyfia, qui signifie "qui guérit par la magie".  Elle est liée à des déesses comme Frigg ou Freyja, et parfois décrite comme une compagne de la géante Menglöð, connue pour sa tendresse et sa compassion.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Fenrir</h2>
+    <img src="https://s2.qwant.com/thumbr/474x237/6/f/bb6f25ba34a0b31701a12b53ea2235e3daf5362731e109d5f6433b8dda0b76/OIP.Zdm_Rs5Wfo0KwbnUryNn6gHaDt.jpg?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.Zdm_Rs5Wfo0KwbnUryNn6gHaDt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Fenrir">
+    <p>
+      Fils de Loki, frère du Serpent Jörmungand et du monstre Hel, Fenrir symbolise la rage et la fin des temps.  
+      Enchaîné par les dieux, il attend le jour où ses liens se briseront, annonçant la chute d’Odin et la fin du monde.  
+      Dans les visions d’Eivor, le hurlement du Loup résonne comme un présage : nul ne peut échapper au Ragnarök.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Forseti</h2>
+    <img src="https://s1.qwant.com/thumbr/474x474/8/a/e650c878f738a52683fa13f1fff0d612aaa55fcc9cfe9ba1f683be7ba25a8b/OIP.CJmwwpSmUo1uAg9p82PNewHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.CJmwwpSmUo1uAg9p82PNewHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Forseti">
+    <p>
+        Forseti est le fils de Baldr, dieu de la lumière et de la pureté, et de Nanna, déesse associée à l’amour et à la fidélité. Sa lignée divine est marquée par la bienveillance et l’harmonie.
+        Forseti est respecté pour sa capacité à rendre des jugements équitables et à réconcilier les conflits entre les dieux. Contrairement à d'autres divinités nordiques souvent associées à la force et à la guerre, Forseti privilégie la parole et la médiation.
+        Il réside à Asgard, dans le palais Glitnir, décrit comme un lieu de splendeur avec un toit d’argent et des piliers d’or rouge. Ce palais sert de cour de justice où les disputes légales sont réglées.
+        Forseti incarne des valeurs telles que l'équité, la sagesse et la modération. Il est souvent représenté comme un juge silencieux et observateur, préférant la paix à la guerre.
+        Forseti est associé au Þing, une assemblée où les hommes libres se réunissaient pour débattre des lois et rendre justice. Il symbolise le modèle idéal du législateur, guidant les décisions avec sagesse.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Freyja</h2>
+    <img src="https://s1.qwant.com/thumbr/474x237/2/1/a0f65e85a711094c58a70b9432b31c4713afa534e9ea9da4cd395f2084f4bb/OIP.9dl3anfUJw24rihqgKjEeAHaDt.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.9dl3anfUJw24rihqgKjEeAHaDt%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Freyja">
+    <p>
+        Freyja incarne l'amour romantique, l'attirance physique et la passion. Elle est associée à la fécondité, à la reproduction et aux rites de fertilité.
+        En tant que chef des Valkyries, elle choisit les guerriers dignes d’entrer au Valhalla. Freyja est également liée à la sorcellerie et à la magie sexuelle.
+        Elle est la fille de Njörd, le dieu de la mer et du vent, et la sœur de Freyr. Elle appartient à la famille des Vanes, un groupe de divinités associé à la fertilité et à la prospérité.
+        Freyja partage avec Odin la responsabilité d'accueillir les âmes des guerriers tombés au combat. Elle en reçoit la moitié dans sa demeure, Fólkvangr.  Ses liens avec la nature et la mer se reflètent dans ses attributs et ses rôles.
+    </p>
+  </section>
+
+   <section class="legende">
+    <h2>Freyr</h2>
+    <img src="https://s1.qwant.com/thumbr/474x270/9/0/c5054a8b5f1439cef839c52ad2409f2ac27c0699cce3e34dcd34fcbec04aa2/OIP.TDsO9QTg5Y7Ar-OABLIjpgHaEO.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.TDsO9QTg5Y7Ar-OABLIjpgHaEO%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Freyr">
+    <p>
+        Freyr est le fils de Njörd, dieu de la mer et des vents, et le frère jumeau de Freya, déesse de la beauté et de l'amour. Il fait partie de la famille des Vanes, une tribu de dieux associée à la fertilité et à la nature.
+        Il a comme attribut et symbole, Gullinbursti, un sanglier doré symbolisant la protection et la prospérité; Skidbladnir, un navire magique capable de se plier et de se ranger dans une poche.
+        Freyr est souvent associé aux récoltes, au soleil, à la pluie, à la virilité et aux mariages. Il est considéré comme un dieu protecteur et pourvoyeur de richesses, ce qui en fait une figure centrale dans la société agricole de l'âge des Vikings.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Frigg</h2>
+    <img src="https://s2.qwant.com/thumbr/474x474/6/2/d8808f7d0807bab0eea5ef8c043882d1df81c263ab18c72615dc2c73009cc3/OIP.S1l9qByHdymKD2sd6aLu2AHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.S1l9qByHdymKD2sd6aLu2AHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Frigg">
+    <p>
+      Frigg est la déesse de l'amour, du mariage et de la maternité. C'est la protectrice des femmes, notamment des femmes en travail. Elle est un symbole de sagesse, de destinée et de fertilité.
+      Elle est également la conseillère d'Odin, son époux, et guide des dieux. Elle est la fille de Fjordgynn (Jord, la terre). Frigg est mère de plusieurs dieux, dont Baldr (le dieu lumineux et bien-aimé).
+      Elle représente l'ordre et la résistance face au chaos, notamment lors du Ragnarök. Frigg incarne la force et la dignité face à l'adversité. Son influence transcende les âges, symbolisant l'amour, la perte et la renaissance.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Fulla</h2>
+    <img src="https://s1.qwant.com/thumbr/474x474/b/5/089a4dca44ddb8e0d135f1b829f5444498f936f3c1935a806aca5f7d6a26d2/OIP.gTOx8D8-M6meNDlAQARleQHaHa.jpg?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.gTOx8D8-M6meNDlAQARleQHaHa%3Fcb%3D12%26pid%3DApi%26ucfimg%3D1&q=0&b=1&p=0&a=0" alt="Fulla">
+    <p>
+      Fulla est la gardienne des cultures fertiles et des moissons. Son nom, dérivé du terme germanique ancien « fullr » (rempli ou abondant), souligne sa nature généreuse.
+      Elle est également associée à la protection et à la fidélité, notamment envers Frigg. Fulla est souvent évoquée dans le contexte des efforts pour protéger Baldr, le dieu de la lumière, contre les plans de Loki. 
+      En tant que confidente de Frigg, elle aurait pu être impliquée dans les tentatives pour obtenir des serments de protection pour Baldr.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Garmr</h2>
+    <img src="https://s2.qwant.com/thumbr/474x270/f/3/d278ed71222d7b9dbb2591a368bb6f0782ef8be6380da74dd2120a1e485774/OIP.EZ0v8lok0jgfX2H5sbb6gwHaEO.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.EZ0v8lok0jgfX2H5sbb6gwHaEO%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Garmr">
+    <p>
+      Il est décrit comme un chien monstrueux enchaîné à la caverne Gnipahellir, où il garde l'entrée vers le monde des morts, souvent identifié à Helheim, le royaume de la déesse Hel.
+      Garmr incarne la transition entre la vie et la mort. Il symbolise les forces destructrices et chaotiques, en opposition à l'ordre et à la justice représentés par Týr, le dieu de la guerre et de la justice. Son nom, "Hurleur", reflète son caractère menaçant et redoutable.
+      Lors du Ragnarök, le destin final des dieux et du monde dans la mythologie nordique, Garmr brise ses chaînes. Il participe au conflit et affronte Týr, entraînant la mort des deux protagonistes. Ce combat illustre la lutte entre l'ordre et le chaos, un thème central du Ragnarök.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Gefjon</h2>
+    <img src="https://s1.qwant.com/thumbr/474x474/0/2/1edb1c4b2fbe2b1e01bb002444396458b5e699118cc545766ecbbd8bda5e5a/OIP.mzsC5NwfaxzuIOI8iEuFTQHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.mzsC5NwfaxzuIOI8iEuFTQHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Gefjon">
+    <p>
+      Gefjon est souvent représentée avec une charrue, symbolisant la transformation de la terre par le labour. Selon la légende, elle a arraché un morceau de terre à la Suède en le labourant avec ses quatre fils transformés en bœufs, créant ainsi l'île de Zealand (Sjælland) au Danemark.
+      Elle est parfois considérée comme une déesse vierge et protectrice des jeunes filles.  Gefjon a obtenu une grande étendue de terre du roi Gylfi de Suède en promettant de labourer autant de terre qu'elle le pouvait en une nuit. Grâce à ses fils transformés en bœufs, elle a réussi à déplacer une partie de la terre pour créer Zealand.
+      Le vide laissé par l'arrachage de la terre a formé le lac Mälaren en Suède.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Gullinkambi</h2>
+    <img src="https://s2.qwant.com/thumbr/400x388/c/0/f44b167bd1e4b1645cd9f5c300950ab5a360fe5eb2c4f42938302a737a07e5/OIP.0ZFYnvJ4yKcNLE6mgvfu1QAAAA.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.0ZFYnvJ4yKcNLE6mgvfu1QAAAA%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Gullinkambi">
+    <p>
+      Gullinkambi, signifiant « crête d'or » en vieux norrois, est un coq emblématique de la mythologie nordique. Il réside au Valhalla, le hall d'Odin, où il a pour rôle de réveiller les dieux et les guerriers lors du Ragnarök, l'apocalypse nordique.
+      Il incarne la transition entre l'ancien et le nouveau, la destruction et la renaissance. Avec ses plumes et sa crête dorées, il représente la lumière du jour et la fierté.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Heimdall</h2>
+    <img src="https://s1.qwant.com/thumbr/474x233/8/4/44a3fe999682c10a9a4cda2195e1dc886193d387a420dfbeb07174bdd2aefd/OIP.Zh_7kcAVi59yYqZCOJpHWAHaDp.jpg?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.Zh_7kcAVi59yYqZCOJpHWAHaDp%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Heimdall">
+    <p>
+      Heimdall est une divinité majeure de la mythologie nordique, connue pour son rôle de gardien d'Asgard, le royaume des dieux. Il surveille le pont arc-en-ciel Bifröst, qui relie Asgard à Midgard (le monde des humains).
+      Il est le fils d'Odin et de neuf mères, toutes sœurs. Il est surnommé "Gullintanni" (dents d'or) et "Hallinskidi" (celui qui a des cornes de bélier).Heimdall est associé au feu, au soleil, au ciel et à la lumière.
+      Il est doté d'une vue perçante et d'une force prodigieuse. Il a pour rôle de garder le Bifröst depuis sa forteresse Himinbjörg. Il utilise le Gjallarhorn, une corne dont le son annonce le Ragnarök (l'apocalypse nordique).
+      Heimdall affrontera Loki lors du Ragnarök, et ils se tueront mutuellement.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Hel</h2>
+    <img src="https://s1.qwant.com/thumbr/474x474/a/d/2d8be58d5477a3b81a0993a70bc2f71d1a05c566c12fc22ffa20ef3f5dbda2/OIP.x3_rLH0VA86WG806NRtKlgHaHa.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.x3_rLH0VA86WG806NRtKlgHaHa%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Hel">
+    <p>
+      Hel est la fille du dieu Loki et de la géante Angrboda, elle est la sœur du loup Fenrir et du serpent Jörmungand; son nom signifie "celle qui est cachée".
+      Née difforme, elle est décrite avec une moitié du corps en décomposition et l'autre moitié en vie. Contrairement à ses frères, elle est considérée comme la plus humaine et la moins menaçante.
+      Hel règne sur le royaume des morts, situé dans le Niflheim, un monde glacial et sombre. Son royaume est composé de neuf mondes différents, chacun dédié à un type de mort particulier.
+      Elle accueille les âmes de ceux qui meurent de vieillesse, de maladie ou de causes non héroïques. Le nom de Hel a donné naissance au mot "hell" en anglais, signifiant enfer. Son royaume est parfois appelé Helheim ou Nibelheim.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Hermodr</h2>
+    <img src="https://s2.qwant.com/thumbr/474x439/6/3/61ae160e93808b28c7e0fa9d6bffce7f92ae3e871ee6b21b8519fe60d2e705/OIP.o8BK8MNq5yYDa11Ujx7I5gHaG3.jpg?u=https%3A%2F%2Fthvnext.bing.com%2Fth%2Fid%2FOIP.o8BK8MNq5yYDa11Ujx7I5gHaG3%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Hermodr">
+    <p>
+      Hermóðr (ou Hermod) est un dieu de la mythologie nordique, fils d'Odin et frère de Baldr. Il est principalement connu pour son rôle de messager des dieux et pour sa mission périlleuse à Helheim.
+      Hermóðr est chargé de transmettre des nouvelles entre les neuf terres de la mythologie nordique. Il est réputé pour sa vitesse et son courage, symbolisés par ses voyages audacieux.
+      Après la mort de Baldr, causée par la ruse de Loki, Hermóðr se porte volontaire pour une mission périlleuse : 
+     <ul>
+  <h3><li><strong>Voyage à Helheim: </strong>Il chevauche Sleipnir, le cheval à huit pattes d'Odin, pendant neuf nuits à travers des vallées sombres.</li></h3>
+  <h3><li><strong>Négociation avec Hel: </strong>Il parvient à Helheim, franchit le pont Gjöll et les grilles de Hel. Il retrouve Baldr et demande à la déesse Hel de le libérer.</li></h3>
+  <h3><li><strong>Condition de libération: </strong> Hel accepte de libérer Baldr à condition que toutes les choses, vivantes et mortes, le pleurent. Cette condition n'est pas remplie, et Baldr reste dans le royaume des morts.</li></h3>
+  </section>
+
+  <section class="legende">
+    <h2>Hodr</h2>
+    <img src="https://s1.qwant.com/thumbr/400x0/3/4/36f3f3b94fb6420799ad69849cde226ea9cf5e98d147669c82d530d9f11a73/Hodr_3a8478b0-705b-4237-8c87-cb9be44c880c_600x.png?u=https%3A%2F%2Fwww.viking-heritage.com%2Fcdn%2Fshop%2Farticles%2FHodr_3a8478b0-705b-4237-8c87-cb9be44c880c_600x.png%3Fv%3D1727367485&q=0&b=1&p=0&a=0" alt="Hodr">
+    <p>
+      Hodr (ou Höd, Höðr, Hoder) est un dieu de la mythologie nordique, fils d'Odin et de Frigg. Il est principalement connu pour son rôle tragique dans la mort de son frère Baldr, le dieu de la lumière.
+      Hodr est un dieu de l'Æsir, la principale famille divine dans la mythologie nordique. Son nom signifie "guerrier" en vieux norrois, bien qu'il soit souvent décrit comme vulnérable et dépendant des autres.
+      Loki, le dieu malfaisant, manipule Hodr pour qu'il participe à un jeu où les dieux lancent des objets sur Baldr, invulnérable à toutes les attaques sauf au gui.  Loki donne à Hodr une flèche en gui, qui tue Baldr. Hodr agit sans savoir qu'il s'agit d'une arme mortelle.
+       La mort de Baldr plonge les dieux dans le chagrin et marque un tournant vers le Ragnarök, la fin du monde dans la mythologie nordique. Odin engendre Vali avec Rind pour venger Baldr en tuant Hodr. La mort de Baldr par Hodr représente la victoire des ténèbres sur la lumière, un thème central dans les mythes nordiques.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Huginn et Muninn</h2>
+    <img src="https://s2.qwant.com/thumbr/400x0/5/3/2e6d18fec45d29adabb82797990036b955d8b03a3d617491b333e181a198b3/huginn-et-muninn-les-corbeaux-dodin-et-leur-rol.original.png?u=https%3A%2F%2Fhistoires-du-monde.com%2Fmedia%2Fimages%2Fhuginn-et-muninn-les-corbeaux-dodin-et-leur-rol.original.png&q=0&b=1&p=0&a=0" alt="Huginn et Muninn">
+    <p>
+      Huginn et Muninn sont deux corbeaux mythiques de la mythologie nordique, associés au dieu Odin. Leurs noms signifient respectivement "pensée" et "mémoire" en vieux norrois.
+      Chaque jour, ils parcourent les neuf mondes de l'Yggdrasil, l'arbre cosmique, pour rapporter à Odin les nouvelles et les secrets qu'ils ont découverts. Leur rôle est étroitement lié à la quête de connaissance d'Odin, renforçant ainsi le symbolisme du dieu associé au savoir.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Idunn</h2>
+    <img src="https://s2.qwant.com/thumbr/400x0/d/5/c165f5d4bae99d8ccbb90fb4e610256e3fa4750f60b677b70fb61e5d0cdcd9/DM-Idunn.png?u=https%3A%2F%2Fwww.dieux-et-mytho.fr%2Fwp-content%2Fuploads%2F2024%2F02%2FDM-Idunn.png&q=0&b=1&p=0&a=0" alt="Idunn">
+    <p>
+      Idunn, également connue sous les noms d'Ydun, Idun, Ithunn ou Idunna, est une déesse majeure de la mythologie nordique. Son nom signifie "ever young" ou "la rejuvenating one", reflétant son rôle central dans la préservation de la jeunesse et de la vitalité des dieux.
+      Idunn est célèbre pour posséder les pommes d'or qui confèrent l'immortalité et la jeunesse éternelle aux dieux d'Asgard. Ces pommes sont essentielles pour maintenir la vitalité des dieux, qui, bien qu'immortels, vieillissent sans elles.
+      Elle incarne la jeunesse, la fertilité et la vitalité. Son rôle est crucial pour les dieux, car sans ses pommes, ils perdent leur force et leur beauté. Idunn est mariée à Bragi, le dieu de la poésie et de la musique. Elle est également décrite comme une déesse de l'amour, aimant profondément les hommes et les dieux.
+      Un des mythes les plus célèbres impliquant Idunn est son enlèvement par le géant Thjazi. Loki, le dieu malin, est capturé par Thjazi et propose de livrer Idunn en échange de sa liberté. Loki attire Idunn hors d'Asgard, où elle est enlevée par Thjazi. Les dieux, privés de ses pommes, commencent à vieillir rapidement. Finalement, Loki parvient à sauver Idunn en se transformant en faucon et en la ramenant à Asgard.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Jörmungandr</h2>
+    <img src="https://s1.qwant.com/thumbr/474x286/0/f/d40f728db766d6d3a01c6fd15a4f9dc62d07187d10eab21c1c18e1269c2ac1/OIP.dsbE4Je4-dyHOmEtrRxg8gHaEe.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.dsbE4Je4-dyHOmEtrRxg8gHaEe%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Jörmungandr">
+    <p>
+      Jörmungandr, également connu sous les noms de Jörmungand, Iormungandr ou Jǫrmungandr en vieux norrois, est un serpent géant de la mythologie nordique. Il est le fils de Loki, dieu de la ruse, et de la géante Angrboda. Ses frères et sœurs incluent Fenrir, un loup géant, et Hel, déesse du monde des morts.
+      Jörmungandr est décrit comme un immense serpent de mer, parfois représenté comme un dragon terrifiant. Sa taille est telle qu'il entoure la Terre et se mord la queue, formant ainsi un symbole de l'Ouroboros, représentant l'infini et les cycles de la nature. Jörmungandr est jeté dans la mer qui encercle Midgard par Odin, en raison de prophéties annonçant qu'il causera de grands dégâts parmi les dieux.
+      Il est le rival du dieu Thor, avec qui il affronte à plusieurs reprises. Leur duel est décrit comme infini et ne prendra fin qu'avec le Ragnarök, la fin du monde dans la mythologie nordique. Il symbolise la grandeur, la terreur, et les thèmes de cycles, de fin et de renouveau.
+      Son nom signifie « monstre immense », reflétant sa taille colossale et son importance dans les mythes nordiques.
+    </p>
+  </section>
+
+  <section class="legende">
+    <h2>Loki</h2>
+    <img src="https://s1.qwant.com/thumbr/474x356/3/7/4b47a4155d2eb57aa2b95853192945bdbe548d2c6ffb94e76425746ea08235/OIP.cTFKv4TIWEdJXmY0QdDG4gHaFk.jpg?u=https%3A%2F%2Ftse.mm.bing.net%2Fth%2Fid%2FOIP.cTFKv4TIWEdJXmY0QdDG4gHaFk%3Fcb%3D12%26pid%3DApi&q=0&b=1&p=0&a=0" alt="Loki">
+    <p>
+      Loki est une figure complexe et ambivalente de la mythologie nordique. Il est souvent qualifié de dieu de la malice, de la discorde et de la désillusion. Bien qu'accepté par les Ases, il est considéré comme une menace et n'a jamais eu de culte voué en son nom.
+      Loki est également connu sous les noms de Loke ou Hvedrung. Il est décrit comme un homme beau et splendide, mais avec un caractère mauvais et changeant. Il est le frère juré d'Odin et est souvent impliqué dans des situations complexes, tantôt sauvant les dieux, tantôt causant leur perte.
+      Il peut se transformer en divers animaux (cheval, oiseaux, saumon) et même changer de sexe. Loki utilise souvent sa ruse pour se sortir de situations difficiles ou pour manipuler les autres.
+    </p>
+  </section>
+
+  <div style="text-align:center;">
+    <a href="lore debut.html" class="btn-retour">⬅ Retour au Lore</a>
+  </div>
+
+  <footer>
+    © 2025 - Encyclopédie des Jeux | Assassin’s Creed Valhalla – Les Légendes Nordiques
+  </footer>
+
+</body>
+</html>
